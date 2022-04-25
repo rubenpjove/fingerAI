@@ -132,7 +132,7 @@ label = s:unix:Mac OS X:10.x
 sig   = *:64:0:*:65535,1:mss,nop,ws,nop,nop,ts,sok,eol+1:df,id+:0
 sig   = *:64:0:*:65535,3:mss,nop,ws,nop,nop,ts,sok,eol+1:df,id+:0
 
-label = s:unix:MacOS X:10.9 or newer (sometimes iPhone or iPad)
+label = s:unix:mac OS X:10.9 or newer (sometimes iPhone or iPad)
 sig   = *:64:0:*:65535,4:mss,nop,ws,nop,nop,ts,sok,eol+1:df,id+:0
 
 label = s:unix:iOS:iPhone or iPad
