@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from scapy.plist import PacketList
 from scapy.layers.all import IP, TCP
 from ai_fingerprinting_tool.ui import Options
+from ai_fingerprinting_tool.sniff import AbstractTrafficCapture, p0fTrafficCapture
 
 class AbstractTrafficPreprocessor(ABC):
     
@@ -12,7 +13,7 @@ class AbstractTrafficPreprocessor(ABC):
         pass
     
     @abstractmethod
-    def getPreprocessedTraffic(self) -> PacketList:
+    def getPreprocessedTraffic(self) -> AbstractTrafficCapture:
         pass
     
     
@@ -47,30 +48,29 @@ class p0fTrafficPreprocessor(AbstractTrafficPreprocessor):
         self.__preprocessedTraffic = PacketList(result)
 
     def getPreprocessedTraffic(self):
-        return self.__preprocessedTraffic
+        return p0fTrafficCapture(self.__preprocessedTraffic)
 
 ################################################################################
 
 class AbstractSignatureGenerator(ABC):
     
     @abstractmethod
-    def generateSignature(self) -> None:
+    def generateSignature(self, TrafficCapture: AbstractTrafficCapture) -> None:
         pass
     
     @abstractmethod
-    def getSignatureDict(self) -> dict:
+    def getSignature(self) -> AbstractSignature:
         pass
-    
-    @abstractmethod
-    def getSignatureList(self) -> list:
-        pass
+
     
 class p0fSignatureGenerator(AbstractSignatureGenerator):
     
     def __init__(self):
         pass
 
-    def generateSignature(self, packets):
+    def generateSignature(self, trafficCapture: AbstractTrafficCapture):
+        packets = trafficCapture.getPacketList()
+        
         if len(packets) == 0:
             raise Exception('No packets available')
         
@@ -138,20 +138,53 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
         ):
             signature['quirk_ts'] = 1
         
-        self.__signature_dict = signature
+        self.__signature = signature
         
-    def getSignatureDict(self):
-        return self.__signature_dict
+    def getSignature(self):
+        return p0fSignature(self.__signature)
+        
     
-    def getSignatureList(self):
+        
+################################################################################
+
+class AbstractSignature(ABC):
+    
+    @abstractmethod
+    def addFeature(self, key, value) -> None:
+        pass
+    
+    @abstractmethod
+    def getDict(self) -> dict:
+        pass
+    
+    @abstractmethod
+    def getList(self) -> list:
+        pass
+    
+
+class p0fSignature(AbstractSignature):
+    
+    def __init__(self):
+        self.__signature = {}
+    
+    def __init__(self,signature: dict):
+        self.__signature = signature
+        
+    def addFeature(self,key,value) -> None:
+        self.__signature[key] = value
+    
+    def getDict(self):
+        return self.__signature
+    
+    def getList(self):
         return [
-            self.__signature_dict['sig_direction'],
-            self.__signature_dict['initial_ttl'],
-            self.__signature_dict['mss'],
-            self.__signature_dict['window_size'],
-            self.__signature_dict['window_scaling'],
-            self.__signature_dict['tcp_options'],
-            self.__signature_dict['quirk_df'],
-            self.__signature_dict['quirk_id'],
-            self.__signature_dict['quirk_ts']
+            self.__signature['sig_direction'],
+            self.__signature['initial_ttl'],
+            self.__signature['mss'],
+            self.__signature['window_size'],
+            self.__signature['window_scaling'],
+            self.__signature['tcp_options'],
+            self.__signature['quirk_df'],
+            self.__signature['quirk_id'],
+            self.__signature['quirk_ts']
         ]

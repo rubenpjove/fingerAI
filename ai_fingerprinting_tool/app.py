@@ -26,7 +26,7 @@ def run():
     # Generate the signature
     signatureGenerator = scan.createSignatureGenerator()
     signatureGenerator.generateSignature(processedTraffic)
-    signature = signatureGenerator.getSignatureList()
+    signature = signatureGenerator.getSignature()
 
     
     # Classify the signature

@@ -1,12 +1,16 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 
+from ai_fingerprinting_tool.sniff import AbstractTrafficCapture, p0fTrafficCapture
 from ai_fingerprinting_tool.sniff import AbstractSniffer, p0fSniffer
-from ai_fingerprinting_tool.preprocess import AbstractTrafficPreprocessor, AbstractSignatureGenerator, p0fTrafficPreprocessor, p0fSignatureGenerator
+from ai_fingerprinting_tool.preprocess import AbstractTrafficPreprocessor, p0fTrafficPreprocessor
+from ai_fingerprinting_tool.preprocess import AbstractSignatureGenerator, p0fSignatureGenerator
+from ai_fingerprinting_tool.preprocess import AbstractSignature, p0fSignature
 from ai_fingerprinting_tool.classify import AbstractClassificator, p0fClassificator
 
 
 class AbstractScan(ABC):
+    
     @abstractmethod
     def createSniffer(self) -> AbstractSniffer:
         pass

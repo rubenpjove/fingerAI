@@ -15,7 +15,7 @@ class AbstractSniffer(ABC):
         pass
     
     @abstractmethod
-    def getCapturedPackets(self) -> PacketList:
+    def getCapturedPackets(self) -> AbstractTrafficCapture:
         pass
 
 class p0fSniffer(AbstractSniffer):
@@ -46,19 +46,21 @@ class p0fSniffer(AbstractSniffer):
             raise Exception('Unknown mode')
     
     def getCapturedPackets(self):
-        return self.__captured_packets
+        return p0fTrafficCapture(self.__captured_packets)
     
-    # def setTarget(self, target):
-    #     self.__target = target
+#################################################################################
+
+class AbstractTrafficCapture(ABC):
     
-    # def setInterface(self, interface):
-    #     self.__interface = interface
+    @abstractmethod
+    def getPacketList(self) -> PacketList:
+        pass
+    
+
+class p0fTrafficCapture(AbstractTrafficCapture):
+    
+    def __init__(self,packets: PacketList):
+        self.__packets = packets
         
-    # def setTimeout(self, timeout):
-    #     self.__timeout = timeout
-        
-    # def setMonitor(self, monitor):
-    #     self.__monitor = monitor
-        
-    # def setStopFilter(self, stop_filter):
-    #     self.__stop_filter = stop_filter
+    def getPacketList(self):
+        return self.__packets
