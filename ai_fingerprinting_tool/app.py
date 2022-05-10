@@ -1,31 +1,38 @@
-from ai_fingerprinting_tool.sniffer import Sniffer
+from ai_fingerprinting_tool.scan import p0fScan
 from ai_fingerprinting_tool.ui import UI
-from ai_fingerprinting_tool.preprocessor import *
-
-from scapy.all import *
 
 def run():
+    # Create the factory depending on the scan algorithm
+    scan = p0fScan()
+    
+    
     # Create the UI and parse user arguments
     ui = UI()
     options = ui.parseOptions()
     
+    
     # Scan the network traffic
-    sniffer = Sniffer(options)
+    sniffer = scan.createSniffer(options)
     sniffer.sniff()
     capture = sniffer.getCapturedPackets()
     
+    
     # Preprocess the captured packets
-    preprocessor = TrafficPreprocessor(options)
-    processedTraffic = preprocessor.processTraffic(capture)
+    preprocessor = scan.createTrafficPreprocessor(options)
+    preprocessor.preprocessTraffic(capture)
+    processedTraffic = preprocessor.getPreprocessedTraffic()
+    
     
     # Generate the signature
-    signatureGenerator = SignatureGenerator()
+    signatureGenerator = scan.createSignatureGenerator()
     signatureGenerator.generateSignature(processedTraffic)
-    signature = signatureGenerator.getSignatureDict()
+    signature = signatureGenerator.getSignatureList()
+
     
-    # Classify the signature    
-    # classificator = Classificator()
-    # result = classificator.classify(signature)
+    # Classify the signature
+    classificator = scan.createClassificator()
+    result = classificator.classify(signature)
+    
     
     # Show the results
     # ui.showResult(result)

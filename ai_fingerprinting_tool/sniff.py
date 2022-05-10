@@ -1,9 +1,24 @@
+from __future__ import annotations
+from abc import ABC, abstractmethod
+
 from scapy.all import sniff as scapy_sniff
 from scapy.all import sr as scapy_sr
+from scapy.plist import PacketList
 from scapy.layers.all import IP, TCP
 from ai_fingerprinting_tool.ui import Options
 
-class Sniffer:
+
+class AbstractSniffer(ABC):
+    
+    @abstractmethod
+    def sniff(self) -> None:
+        pass
+    
+    @abstractmethod
+    def getCapturedPackets(self) -> PacketList:
+        pass
+
+class p0fSniffer(AbstractSniffer):
     
     def __init__(self,options:Options):
         self.__mode = options.getMode()
@@ -30,20 +45,20 @@ class Sniffer:
         else:
             raise Exception('Unknown mode')
     
-    def setTarget(self, target):
-        self.__target = target
-    
-    def setInterface(self, interface):
-        self.__interface = interface
-        
-    def setTimeout(self, timeout):
-        self.__timeout = timeout
-        
-    def setMonitor(self, monitor):
-        self.__monitor = monitor
-        
-    def setStopFilter(self, stop_filter):
-        self.__stop_filter = stop_filter
-    
     def getCapturedPackets(self):
         return self.__captured_packets
+    
+    # def setTarget(self, target):
+    #     self.__target = target
+    
+    # def setInterface(self, interface):
+    #     self.__interface = interface
+        
+    # def setTimeout(self, timeout):
+    #     self.__timeout = timeout
+        
+    # def setMonitor(self, monitor):
+    #     self.__monitor = monitor
+        
+    # def setStopFilter(self, stop_filter):
+    #     self.__stop_filter = stop_filter

@@ -1,15 +1,28 @@
-from scapy.all import Packet
-from scapy.all import PacketList
+from __future__ import annotations
+from abc import ABC, abstractmethod
+
+from scapy.plist import PacketList
 from scapy.layers.all import IP, TCP
 from ai_fingerprinting_tool.ui import Options
 
-class TrafficPreprocessor:
+class AbstractTrafficPreprocessor(ABC):
+    
+    @abstractmethod
+    def preprocessTraffic(self,packets) -> None:
+        pass
+    
+    @abstractmethod
+    def getPreprocessedTraffic(self) -> PacketList:
+        pass
+    
+    
+class p0fTrafficPreprocessor(AbstractTrafficPreprocessor):
     
     def __init__(self,options:Options):
         self.__options = options
         pass
     
-    def processTraffic(self, packets):
+    def preprocessTraffic(self, packets):
         result = []
         
         target = self.__options.getTarget()
@@ -31,11 +44,28 @@ class TrafficPreprocessor:
                 ):
                     result.append(packet)
         
-        return PacketList(result)
+        self.__preprocessedTraffic = PacketList(result)
 
+    def getPreprocessedTraffic(self):
+        return self.__preprocessedTraffic
 
+################################################################################
+
+class AbstractSignatureGenerator(ABC):
     
-class SignatureGenerator:
+    @abstractmethod
+    def generateSignature(self) -> None:
+        pass
+    
+    @abstractmethod
+    def getSignatureDict(self) -> dict:
+        pass
+    
+    @abstractmethod
+    def getSignatureList(self) -> list:
+        pass
+    
+class p0fSignatureGenerator(AbstractSignatureGenerator):
     
     def __init__(self):
         pass
@@ -113,7 +143,7 @@ class SignatureGenerator:
     def getSignatureDict(self):
         return self.__signature_dict
     
-    def getSignatureArray(self):
+    def getSignatureList(self):
         return [
             self.__signature_dict['sig_direction'],
             self.__signature_dict['initial_ttl'],

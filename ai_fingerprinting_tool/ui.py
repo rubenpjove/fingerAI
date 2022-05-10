@@ -3,7 +3,7 @@ import argparse
 class Options:
     
     def __init__(self):
-        self.__parser = argparse.ArgumentParser(description='Fingerprinting tool based on Artifial Intelligence',
+        self.__parser = argparse.ArgumentParser(description='Fingerprinting tool based on artifial intelligence',
                                                 prog='ai_fingerprinting_tool')
         self.__parser.add_argument('mode', choices=['active','passive'], nargs=1, help='mode of operation')
         self.__parser.add_argument('target', nargs=1, help='target of the scan')
@@ -25,8 +25,19 @@ class Options:
     def getTimeout(self):
         return self.__args.timeout
         
+################################################################################
 
-class UI:
+class SingletonUI(type):
+
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class UI(metaclass=SingletonUI):
     
     def __init__(self):
         self.__options = Options()
@@ -34,4 +45,7 @@ class UI:
     def parseOptions(self):
         self.__options.parseArguments()
         return self.__options
+    
+    def showResults(self):
+        pass
         
