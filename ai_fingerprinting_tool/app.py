@@ -16,6 +16,7 @@ def run():
     sniffer.sniff()
     capture = sniffer.getCapturedPackets()
     
+    print("Done sniffing")
     
     # Preprocess the captured packets
     preprocessor = scan.createTrafficPreprocessor(options)

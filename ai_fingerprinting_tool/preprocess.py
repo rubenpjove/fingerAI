@@ -9,7 +9,7 @@ from ai_fingerprinting_tool.sniff import AbstractTrafficCapture, p0fTrafficCaptu
 class AbstractTrafficPreprocessor(ABC):
     
     @abstractmethod
-    def preprocessTraffic(self,packets) -> None:
+    def preprocessTraffic(self,trafficCapture: AbstractTrafficCapture) -> None:
         pass
     
     @abstractmethod
@@ -23,10 +23,12 @@ class p0fTrafficPreprocessor(AbstractTrafficPreprocessor):
         self.__options = options
         pass
     
-    def preprocessTraffic(self, packets):
+    def preprocessTraffic(self, trafficCapture: AbstractTrafficCapture):
         result = []
         
         target = self.__options.getTarget()
+        
+        packets = trafficCapture.getPacketList()
         
         for packet in packets:
             if (
