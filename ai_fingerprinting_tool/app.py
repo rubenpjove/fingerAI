@@ -5,7 +5,6 @@ def run():
     # Create the factory depending on the scan algorithm
     scan = p0fScan()
     
-    
     # Create the UI and parse user arguments
     ui = UI()
     options = ui.parseOptions()
