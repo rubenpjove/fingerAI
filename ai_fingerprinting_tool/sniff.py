@@ -5,11 +5,13 @@ import signal
 from numpy import sign
 
 from scapy.all import sniff as scapy_sniff
-from scapy.all import sr as scapy_sr
+from scapy.all import sr1 as scapy_sr
 from scapy.plist import PacketList
 from scapy.layers.all import IP, TCP
 from ai_fingerprinting_tool.ui import Options
+from ai_fingerprinting_tool.ui import UI
 
+from scapy.layers.all import IP, TCP
 
 class AbstractSniffer(ABC):
     
@@ -31,8 +33,15 @@ class p0fSniffer(AbstractSniffer):
         self.__timeout = options.getTimeout()
         self.__monitor = False
         self.__stop_filter = None
+        self.__verbose = options.getVerbose()
+        self.__debug = options.getDebug()
         
         self.__captured_packets = None
+        
+        # self.__prn_function = lambda pkt: "%s: %s" % (pkt.sniffed_on, pkt.summary())
+        
+        self.__prn_function = lambda pkt: "%s: %s" % (pkt.sniffed_on, pkt.summary()) if ( (pkt != None and pkt.haslayer(IP) and pkt.haslayer(TCP)) and 
+                                                                                        ( ('S' in pkt[TCP].flags and pkt[IP].src == self.__target) )) else None
     
     # def __signal_handler(sig, frame):
     #     res = input("trl+C fue presionado. Estas seguro de que quieres parar de capturar paquetes de red? [s]:")
@@ -42,15 +51,33 @@ class p0fSniffer(AbstractSniffer):
     def sniff(self):
         # signal.signal(signal.SIGINT, p0fSniffer.__signal_handler)
         
+        ui = UI()
+        
+        ui.printVerbose("Sniffing network traffic... Press Ctrl+C to stop")
+        
         if self.__mode == 'active':
-            self.__captured_packets,_ = scapy_sr(IP(dst=self.__target)/TCP(dport=80,flags="S"),
-                                                timeout=self.__timeout)
+            arguments = {'x' : IP(dst=self.__target)/TCP(dport=80,flags="S"),
+                         'iface' : self.__interface,
+                        'timeout' : self.__timeout,
+                        'verbose' : self.__verbose}
+                
+            # if self.__debug: 
+            #     arguments.update({'prn' : self.__prn_function})
+                
+            
+            self.__captured_packets = scapy_sr(**arguments)
+            
             
         elif self.__mode == 'passive':
-            self.__captured_packets = scapy_sniff(iface=self.__interface,
-                                            timeout=self.__timeout,
-                                            monitor=self.__monitor,
-                                            stop_filter=self.__stop_filter)
+            arguments = {'iface' : self.__interface,
+                        'timeout' : self.__timeout,
+                        'monitor' : self.__monitor,
+                        'stop_filter' : self.__stop_filter}
+                
+            if self.__debug: 
+                arguments.update({'prn' : self.__prn_function})
+            
+            self.__captured_packets = scapy_sniff(**arguments)
         else:
             raise Exception('Unknown mode')
     

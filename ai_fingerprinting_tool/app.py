@@ -15,8 +15,6 @@ def run():
     sniffer.sniff()
     capture = sniffer.getCapturedPackets()
     
-    print("Done sniffing")
-    
     # Preprocess the captured packets
     preprocessor = scan.createTrafficPreprocessor(options)
     preprocessor.preprocessTraffic(capture)
@@ -33,9 +31,8 @@ def run():
     classificator = scan.createClassificator()
     result = classificator.classify(signature)
     
-    
     # Show the results
-    # ui.showResult(result)
+    ui.showResults(result)
     
     
 if __name__ == '__main__':

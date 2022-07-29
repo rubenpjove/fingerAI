@@ -1,5 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
+import pandas as pd
+import sys
 
 from scapy.plist import PacketList
 from scapy.layers.all import IP, TCP
@@ -30,6 +32,10 @@ class p0fTrafficPreprocessor(AbstractTrafficPreprocessor):
         
         packets = trafficCapture.getPacketList()
         
+        if packets is None:
+            print('No packets captured')
+            sys.exit(1)
+        
         for packet in packets:
             if (
                 packet != None and 
@@ -37,12 +43,14 @@ class p0fTrafficPreprocessor(AbstractTrafficPreprocessor):
                 packet.haslayer(TCP)
                 ):
                 if (
-                    packet[TCP].flags == 'S' and
+                    'S' in packet[TCP].flags and
+                    not 'A' in packet[TCP].flags and
                     packet[IP].src == target
                     ):
                     result.append(packet)
                 elif (
-                    packet[TCP].flags == 'SA' and
+                    'S' in packet[TCP].flags and
+                    'A' in packet[TCP].flags and
                     packet[IP].src == target
                 ):
                     result.append(packet)
@@ -74,7 +82,8 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
         packets = trafficCapture.getPacketList()
         
         if len(packets) == 0:
-            raise Exception('No packets available')
+            print('No packets captured')
+            sys.exit(1)
         
         packet = packets[0]
         
@@ -85,12 +94,12 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
         tcpOptions = dict(packet[TCP].options)
         
         signature = {
-            'sig_direction': None,
-            'initial_ttl': None,
+            'sig_direction': '*',
+            'initial_ttl': '*',
             'mss': '*',
-            'window_size': None,
-            'window_scaling': None,
-            'tcp_options': None,
+            'window_size': '*',
+            'window_scaling': '*',
+            'tcp_options': '',
             'quirk_df': 0,
             'quirk_id': 0,
             'quirk_ts': 0
@@ -98,30 +107,47 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
         
         # Signature Direction
         if (
-            tcpPacket.flags == 'S'
+            'S' in packet[TCP].flags and not 'A' in packet[TCP].flags
             ):
             signature['sig_direction'] = 'request'
         elif (
-            tcpPacket.flags == 'SA'
+            'S' in packet[TCP].flags and 'A' in packet[TCP].flags
         ):
             signature['sig_direction'] = 'response'
             
         # Initial TTL
-        signature['initial_ttl'] = packet[IP].ttl
+        signature['initial_ttl'] = str(packet[IP].ttl)
         
         # MSS
         if 'MSS' in tcpOptions:
-            signature['mss'] = tcpOptions['MSS']
+            signature['mss'] = str(tcpOptions['MSS'])
             
         # Window Size
-        signature['window_size'] = tcpPacket.window
+        signature['window_size'] = str(tcpPacket.window)
         
         # Windows Scaling
         if 'WScale' in tcpOptions:
-            signature['window_scaling'] = tcpOptions['WScale']
+            signature['window_scaling'] = str(tcpOptions['WScale'])
             
         # TCP Options
-        signature['tcp_options'] = tcpOptions.keys()
+        tcpOptionsResult = []
+        for k in tcpOptions:
+            if k == 'MSS':
+                tcpOptionsResult.append('mss')
+            elif k == 'NOP':
+                tcpOptionsResult.append('nop')
+            elif k == 'Timestamp':
+                tcpOptionsResult.append('ts')
+            elif k == 'WScale':
+                tcpOptionsResult.append('ws')
+            elif k == 'SAckOK':
+                tcpOptionsResult.append('sok')
+            elif k == 'EOL':
+                tcpOptionsResult.append('eol')
+            else:
+                tcpOptionsResult.append('*')
+        
+        signature['tcp_options'] = ','.join(tcpOptionsResult)
         
         # Quirks
         #   DF
@@ -139,6 +165,19 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
             tcpOptions['Timestamp'][0] == 0
         ):
             signature['quirk_ts'] = 1
+        
+        signature = {
+            'sig_direction': 'response',
+            'initial_ttl': '64',
+            'mss': '1460',
+            'window_size': '65392',
+            'window_scaling': '2',
+            'tcp_options': 'sok,ts,mss,nop,ws',
+            'quirk_df': 1,
+            'quirk_id': 1,
+            'quirk_ts': 0,
+            'os': '*'
+        }
         
         self.__signature = signature
         
@@ -163,14 +202,20 @@ class AbstractSignature(ABC):
     def getList(self) -> list:
         pass
     
+    @abstractmethod
+    def getDataFrame(self) -> list:
+        pass
+    
 
 class p0fSignature(AbstractSignature):
     
     def __init__(self):
         self.__signature = {}
+        self.__signature['os'] = '*'
     
     def __init__(self,signature: dict):
         self.__signature = signature
+        self.__signature['os'] = '*'
         
     def addFeature(self,key,value) -> None:
         self.__signature[key] = value
@@ -190,3 +235,8 @@ class p0fSignature(AbstractSignature):
             self.__signature['quirk_id'],
             self.__signature['quirk_ts']
         ]
+        
+    def getDataFrame(self):
+        result = pd.DataFrame(self.__signature, index=[0])
+        result.reset_index(inplace=True, drop=True)
+        return result
