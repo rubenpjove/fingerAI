@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
+from operator import index
 from ai_fingerprinting_tool.preprocess import AbstractSignature
 from joblib import load
 import pandas as pd
@@ -28,7 +29,9 @@ class p0fClassificator(AbstractClassificator):
         
         df_signature = signature.getDataFrame()
         
-        ui.printDebug(df_signature)
+        ui.printDebug("Signature to be analyzed:")
+        ui.printDebug(df_signature.to_string(index=False))
+        ui.printDebug("")
         
         transformed_signature = encoders.transform(df_signature)
         transformed_signature = pd.DataFrame(

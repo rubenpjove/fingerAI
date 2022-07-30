@@ -1,12 +1,15 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
+from imp import load_module
 import pandas as pd
 import sys
 
 from scapy.plist import PacketList
 from scapy.layers.all import IP, TCP
-from ai_fingerprinting_tool.ui import Options
+from ai_fingerprinting_tool.ui import UI, Options
 from ai_fingerprinting_tool.sniff import AbstractTrafficCapture, p0fTrafficCapture
+
+import scapy_p0f
 
 class AbstractTrafficPreprocessor(ABC):
     
@@ -86,6 +89,15 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
             sys.exit(1)
         
         packet = packets[0]
+        
+        ui = UI()
+        ui.printDebug('Generating signature for packet:\n%s' % packet.show(dump=True))
+        
+        options = ui.getOptions()
+        
+        if options.getp0fToolResult():
+            p0fResult = scapy_p0f.p0f(packet)
+            ui.printMessage('Result from original p0f tool:\n%s\n' % p0fResult[0][2])
         
         if not packet.haslayer(TCP):
             raise Exception("No TCP packet")

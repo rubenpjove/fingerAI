@@ -1,13 +1,15 @@
-from ai_fingerprinting_tool.scan import p0fScan
 from ai_fingerprinting_tool.ui import UI
+from ai_fingerprinting_tool.scan import ScanGenerator
 
 def run():
-    # Create the factory depending on the scan algorithm
-    scan = p0fScan()
-    
     # Create the UI and parse user arguments
     ui = UI()
     options = ui.parseOptions()
+    
+    # Create the set of classes depending on the options
+    scanGenerator = ScanGenerator()
+    scan,options = scanGenerator.createScan(options)
+    ui.updateOptions(options)
     
     # Scan the network traffic
     sniffer = scan.createSniffer(options)
