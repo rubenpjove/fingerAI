@@ -1,3 +1,5 @@
+from __future__ import annotations
+from abc import ABC, abstractmethod
 import argparse
 import os
 import sys
@@ -5,17 +7,25 @@ import sys
 class Options:
     
     def __init__(self):
+
         self.__parser = argparse.ArgumentParser(description='Fingerprinting tool based on artifial intelligence',
-                                                prog='ai_fingerprinting_tool')
-        self.__parser.add_argument('mode', choices=['active','passive'], help='mode of operation')
-        self.__parser.add_argument('target', help='target of the scan')
-        self.__parser.add_argument('-i', '--interface', help='interface to sniff')
-        self.__parser.add_argument('-t', '--timeout', type=int, help='timeout for sniffing')
+                                                prog='ai_fingerprinting_tool',
+                                                epilog="See '<command> --help' to read about a specific sub-command.")
         self.__parser.add_argument('-v', '--verbose', action='store_true', default=False, help='print verbose messages')
         self.__parser.add_argument('-d', '--debug', action='store_true', default=False, help='print debug messages')
         
+        subparsers = self.__parser.add_subparsers(dest='command', help='Scans available')
+        
+        p0fparser = p0fSpecificParser()
+        p0fparser.createSpecificParser(subparsers)
+        
     def parseArguments(self):
         self.__args = self.__parser.parse_args()
+        if self.__args.command is not None:
+            print(self.__args)
+        else:
+            self.__parser.print_help()
+            sys.exit()
         
     def getMode(self):
         return self.__args.mode
@@ -34,6 +44,30 @@ class Options:
     
     def getDebug(self):
         return self.__args.debug
+    
+class AbstractSpecificOptions(ABC):
+    
+    @abstractmethod
+    def createSpecificParser(self) -> None:
+        pass
+
+class p0fSpecificParser(AbstractSpecificOptions,Options):
+    
+    def createSpecificParser(self,subparsers) -> None:
+        p0fparser = subparsers.add_parser('p0f', help='Based on p0f database')
+        
+        p0fparser.add_argument('-i', '--interface', help='interface to sniff')
+        p0fparser.add_argument('-t', '--timeout', type=int, help='timeout for sniffing')
+        
+        subparsers2 = p0fparser.add_subparsers(dest='mode', help='Scans available')
+        activeparser = subparsers2.add_parser('active', help='Active scan')
+        activeparser.add_argument('-p', '--port', type=int, default=80)
+        activeparser.add_argument('target', help='target of the scan')
+        
+        passiveparser = subparsers2.add_parser('passive', help='Passive scan')
+        passiveparser.add_argument('target', help='target of the scan')
+        
+        
         
 ################################################################################
 

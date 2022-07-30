@@ -1,7 +1,10 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 
-import signal
+import socket
+from contextlib import closing
+import random
+from datetime import datetime
 from numpy import sign
 
 from scapy.all import sniff as scapy_sniff
@@ -38,32 +41,30 @@ class p0fSniffer(AbstractSniffer):
         
         self.__captured_packets = None
         
-        # self.__prn_function = lambda pkt: "%s: %s" % (pkt.sniffed_on, pkt.summary())
+        self.__prn_function = lambda pkt: "%s: %s" % (pkt.sniffed_on, pkt.summary())
         
-        self.__prn_function = lambda pkt: "%s: %s" % (pkt.sniffed_on, pkt.summary()) if ( (pkt != None and pkt.haslayer(IP) and pkt.haslayer(TCP)) and 
-                                                                                        ( ('S' in pkt[TCP].flags and pkt[IP].src == self.__target) )) else None
+        # self.__prn_function = lambda pkt: "%s: %s" % (pkt.sniffed_on, pkt.summary()) if ( (pkt != None and pkt.haslayer(IP) and pkt.haslayer(TCP)) and 
+        #                                                                                 ( ('S' in pkt[TCP].flags and pkt[IP].src == self.__target) )) else None
     
-    # def __signal_handler(sig, frame):
-    #     res = input("trl+C fue presionado. Estas seguro de que quieres parar de capturar paquetes de red? [s]:")
-    #     if res == 's':
-    #         raise KeyboardInterrupt
     
     def sniff(self):
-        # signal.signal(signal.SIGINT, p0fSniffer.__signal_handler)
-        
         ui = UI()
         
         ui.printVerbose("Sniffing network traffic... Press Ctrl+C to stop")
         
         if self.__mode == 'active':
-            arguments = {'x' : IP(dst=self.__target)/TCP(dport=80,flags="S"),
+            
+            sport=0
+            while sport == 0:
+                with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
+                    sport = random.randint(1024,65535)
+                    if sock.connect_ex(('127.0.0.1', sport)) != 0:
+                        sport = 0
+
+            arguments = {'x' : IP(dst=self.__target)/TCP(sport=sport, dport=80,flags="S",options=[('MSS',1460),('SAckOK',''),('Timestamp',(int(datetime.timestamp(datetime.now())),0)),('NOP',0),('WScale',7)]),
                          'iface' : self.__interface,
                         'timeout' : self.__timeout,
                         'verbose' : self.__verbose}
-                
-            # if self.__debug: 
-            #     arguments.update({'prn' : self.__prn_function})
-                
             
             self.__captured_packets = scapy_sr(**arguments)
             

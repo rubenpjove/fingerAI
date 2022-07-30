@@ -9,7 +9,6 @@ def run():
     ui = UI()
     options = ui.parseOptions()
     
-    
     # Scan the network traffic
     sniffer = scan.createSniffer(options)
     sniffer.sniff()
@@ -20,12 +19,10 @@ def run():
     preprocessor.preprocessTraffic(capture)
     processedTraffic = preprocessor.getPreprocessedTraffic()
     
-    
     # Generate the signature
     signatureGenerator = scan.createSignatureGenerator()
     signatureGenerator.generateSignature(processedTraffic)
     signature = signatureGenerator.getSignature()
-
     
     # Classify the signature
     classificator = scan.createClassificator()

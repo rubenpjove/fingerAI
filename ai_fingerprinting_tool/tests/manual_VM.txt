@@ -1,13 +1,13 @@
 Web Server: 
-python -m http.server
+python -m http.server 80
 
 UBUNTU 20.04 (192.168.1.53) : ubuntu:ubuntu
 
     Active: 
 
-        sig_direction initial_ttl   mss window_size window_scaling tcp_options  quirk_df  quirk_id  quirk_ts os
-        0      response          64  1460       64240              *         mss         1         0         0  *
-
+        sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
+        0      response          64  1460       65160              7  mss,sok,ts,nop,ws         1         0         0  *
+        
         Results:
                 Target: 192.168.1.53 -> OS: Linux
 
@@ -41,8 +41,8 @@ WINDOWS 10 (192.168.1.55) : windows:windows
 
     Active: 
 
-        sig_direction initial_ttl   mss window_size window_scaling tcp_options  quirk_df  quirk_id  quirk_ts os
-        0      response         128  1460       65392              *         mss         1         1         0  *
+        sig_direction initial_ttl   mss window_size window_scaling     tcp_options  quirk_df  quirk_id  quirk_ts os
+        0      response         128  1460       65535              8  mss,nop,ws,sok         1         1         0  *
 
         Results:
                 Target: 192.168.1.55 -> OS: Windows
@@ -80,15 +80,15 @@ WINDOWS 10 (192.168.1.55) : windows:windows
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 
-SOLARIS 11.4 () : root:solaris.
+SOLARIS 11.4 (192.168.1.57) : root:solaris.
 
     Active: 
 
-        sig_direction initial_ttl   mss window_size window_scaling tcp_options  quirk_df  quirk_id  quirk_ts os
-        0      response          64  1460       65392              *         mss         1         1         0  *
+        sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
+        0      response          64  1460       64074              2  sok,ts,mss,nop,ws         1         1         0  *
 
         Results:
-                Target: 192.168.1.57 -> OS: FreeBSD
+                Target: 192.168.1.57 -> OS: Solaris
 
     Passive:
 
@@ -127,11 +127,11 @@ FREEBSD 13.1 (192.168.1.58) : freebsd:freebsd
 
     Active: 
 
-        sig_direction initial_ttl   mss window_size window_scaling tcp_options  quirk_df  quirk_id  quirk_ts os
-        0      response          64  1460       65535              *         mss         1         0         0  *
-        
+        sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
+        0      response          64  1460       65535              6  mss,nop,ws,sok,ts         1         0         0  *
+
         Results:
-                Target: 192.168.1.58 -> OS: Linux
+                Target: 192.168.1.58 -> OS: FreeBSD
 
     Passive:
 
@@ -170,84 +170,124 @@ OPENBSD 7.1 (192.168.1.59) : openbsd:openbsd
 
     Active: 
 
-        sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
-        0      response          64  1460       65392              2  sok,ts,mss,nop,ws         1         1         0  *
+        sig_direction initial_ttl   mss window_size window_scaling tcp_options  quirk_df  quirk_id  quirk_ts os
+        0      response          64  1460       16384              *         mss         1         1         0  *
 
         Results:
-                Target: 192.168.1.59 -> OS: Solaris
+                Target: 192.168.1.59 -> OS: FreeBSD
 
     Passive:
 
         curl:
             sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
-            0      response          64  1460       65392              2  sok,ts,mss,nop,ws         1         1         0  *
+            0      response          64  1460       16384              6  mss,nop,sok,ws,ts         1         1         0  *
 
             Results:
-                    Target: 192.168.1.59 -> OS: Solaris
+                    Target: 192.168.1.59 -> OS: FreeBSD
 
         wget:
             sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
-            0      response          64  1460       65392              2  sok,ts,mss,nop,ws         1         1         0  *
+            0      response          64  1460       16384              6  mss,nop,sok,ws,ts         1         1         0  *
 
             Results:
-                    Target: 192.168.1.59 -> OS: Solaris
+                    Target: 192.168.1.59 -> OS: FreeBSD
 
         chrome:
             sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
-            0      response          64  1460       65392              2  sok,ts,mss,nop,ws         1         1         0  *
+            0      response          64  1460       16384              6  mss,nop,sok,ws,ts         1         1         0  *
 
             Results:
-                    Target: 192.168.1.59 -> OS: Solaris
+                    Target: 192.168.1.59 -> OS: FreeBSD
 
         request (from OpenBSD 7.1 to Ubuntu Web Server):
             sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
-            0      response          64  1460       65392              2  sok,ts,mss,nop,ws         1         1         0  *
+            0       request          64  1460       16384              6  mss,nop,sok,ws,ts         1         1         0  *
             
             Results:
-                    Target: 192.168.1.59 -> OS: Solaris
+                    Target: 192.168.1.59 -> OS: Windows
 
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 
-OPENBSD 5.5 () : openbsd:openbsd
+OPENBSD 5.5 (192.168.1.60) : openbsd:openbsd
 
     Active: 
 
-        
+        sig_direction initial_ttl   mss window_size window_scaling tcp_options  quirk_df  quirk_id  quirk_ts os
+        0      response          64  1460       16384              *         mss         1         1         0  *
+
+        Results:
+                Target: 192.168.1.60 -> OS: FreeBSD
 
     Passive:
 
         curl:
-            
+            sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
+            0      response          64  1460       16384              3  mss,nop,sok,ws,ts         1         1         0  *
+
+            Results:
+                    Target: 192.168.1.60 -> OS: FreeBSD
 
         wget:
-            
+            sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
+            0      response          64  1460       16384              3  mss,nop,sok,ws,ts         1         1         0  *
+
+            Results:
+                    Target: 192.168.1.60 -> OS: FreeBSD
 
         chrome:
-            
+            sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
+            0      response          64  1460       16384              3  mss,nop,sok,ws,ts         1         1         0  *
+
+            Results:
+                    Target: 192.168.1.60 -> OS: FreeBSD
 
         request (from OpenBSD 5.5 to Ubuntu Web Server):
-            
+            sig_direction initial_ttl   mss window_size window_scaling        tcp_options  quirk_df  quirk_id  quirk_ts os
+            0       request          64  1460       16384              3  mss,nop,sok,ws,ts         1         1         0  *
+
+            Results:
+                    Target: 192.168.1.60 -> OS: Windows
 
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 
-MAC OS X () :
+MAC OS X (192.168.1.61) :
 
     Active: 
 
-        
+        sig_direction initial_ttl   mss window_size window_scaling tcp_options  quirk_df  quirk_id  quirk_ts os
+        0      response          64  1460       65535              *         mss         1         0         0  *
+
+        Results:
+                Target: 192.168.1.61 -> OS: Linux
 
     Passive:
 
         curl:
-            
+            sig_direction initial_ttl   mss window_size window_scaling            tcp_options  quirk_df  quirk_id  quirk_ts os
+            0      response          64  1460       65535              5  mss,nop,ws,ts,sok,eol         1         0         0  *
+
+            Results:
+                    Target: 192.168.1.61 -> OS: Linux
 
         wget:
-            
+            sig_direction initial_ttl   mss window_size window_scaling            tcp_options  quirk_df  quirk_id  quirk_ts os
+            0      response          64  1460       65535              5  mss,nop,ws,ts,sok,eol         1         0         0  *
+
+            Results:
+                    Target: 192.168.1.61 -> OS: Linux
 
         chrome:
-            
+            sig_direction initial_ttl   mss window_size window_scaling            tcp_options  quirk_df  quirk_id  quirk_ts os
+            0      response          64  1460       65535              5  mss,nop,ws,ts,sok,eol         1         0         0  *
 
-------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------
+            Results:
+                    Target: 192.168.1.61 -> OS: Linux
+
+        request (from Mac OS X High Sierra to Ubuntu Web Server):
+            sig_direction initial_ttl   mss window_size window_scaling            tcp_options  quirk_df  quirk_id  quirk_ts os
+            0       request          64  1460       65535              5  mss,nop,ws,ts,sok,eol         1         0         0  *
+
+            Results:
+                    Target: 192.168.1.61 -> OS: Windows

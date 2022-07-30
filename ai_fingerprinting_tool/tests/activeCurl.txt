@@ -1,0 +1,24 @@
+Transmission Control Protocol, Src Port: 45514, Dst Port: 80, Seq: 0, Len: 0
+    Source Port: 45514
+    Destination Port: 80
+    [Stream index: 11]
+    [TCP Segment Len: 0]
+    Sequence number: 0    (relative sequence number)
+    Sequence number (raw): 2279361728
+    [Next sequence number: 1    (relative sequence number)]
+    Acknowledgment number: 0
+    Acknowledgment number (raw): 0
+    1010 .... = Header Length: 40 bytes (10)
+    Flags: 0x002 (SYN)
+    Window size value: 64240
+    [Calculated window size: 64240]
+    Checksum: 0x949d [unverified]
+    [Checksum Status: Unverified]
+    Urgent pointer: 0
+    Options: (20 bytes), Maximum segment size, SACK permitted, Timestamps, No-Operation (NOP), Window scale
+        TCP Option - Maximum segment size: 1460 bytes
+        TCP Option - SACK permitted
+        TCP Option - Timestamps: TSval 820215130, TSecr 0
+        TCP Option - No-Operation (NOP)
+        TCP Option - Window scale: 7 (multiply by 128)
+    [Timestamps]

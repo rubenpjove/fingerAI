@@ -166,18 +166,18 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
         ):
             signature['quirk_ts'] = 1
         
-        signature = {
-            'sig_direction': 'response',
-            'initial_ttl': '64',
-            'mss': '1460',
-            'window_size': '65392',
-            'window_scaling': '2',
-            'tcp_options': 'sok,ts,mss,nop,ws',
-            'quirk_df': 1,
-            'quirk_id': 1,
-            'quirk_ts': 0,
-            'os': '*'
-        }
+        # signature = {
+        #     'sig_direction': 'response',
+        #     'initial_ttl': '64',
+        #     'mss': '1460',
+        #     'window_size': '65392',
+        #     'window_scaling': '2',
+        #     'tcp_options': 'sok,ts,mss,nop,ws',
+        #     'quirk_df': 1,
+        #     'quirk_id': 1,
+        #     'quirk_ts': 0,
+        #     'os': '*'
+        # }
         
         self.__signature = signature
         
