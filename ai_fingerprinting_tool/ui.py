@@ -152,7 +152,7 @@ class UI(metaclass=SingletonUI):
             resultDict = {self.__options.getTarget():inResult[0]}
             result = json.dumps(resultDict)
             
-        elif self.__options.getOutputFormat() == 'grepable':
+        elif self.__options.getOutputFormat() == 'grep':
             result = '{}\t{}'.format(self.__options.getTarget(),inResult[0])
             
         else :
