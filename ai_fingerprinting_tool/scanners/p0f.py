@@ -195,13 +195,13 @@ class p0fTrafficCapture(AbstractTrafficCapture):
 class p0fTrafficPreprocessor(AbstractTrafficPreprocessor):
     
     def __init__(self,options:Options):
-        self.__options = options
+        self.__target = options.getTarget()
         pass
     
     def preprocessTraffic(self, trafficCapture: AbstractTrafficCapture):
         result = []
         
-        target = self.__options.getTarget()
+        target = self.__target
         
         packets = trafficCapture.getPacketList()
         
@@ -417,7 +417,7 @@ class p0fClassificator(AbstractClassificator):
         
         warnings.filterwarnings("ignore")
         
-        encoders = load('persistance/encoders.joblib')
+        encoders = load('persistence/encoders.joblib')
         
         df_signature = signature.getDataFrame()
         
@@ -432,9 +432,9 @@ class p0fClassificator(AbstractClassificator):
         )
 
         if transformed_signature.sig_direction.values[0] == 'request':
-            classifier = load('persistance/classifier_request.joblib')
+            classifier = load('persistence/classifier_request.joblib')
         else:
-            classifier = load('persistance/classifier_response.joblib')
+            classifier = load('persistence/classifier_response.joblib')
             
         Xdata = transformed_signature.drop(['os','sig_direction'],axis = 1).values
         
