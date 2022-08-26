@@ -1,6 +1,8 @@
 from __future__ import annotations
+from abc import ABC, abstractmethod
 import os
 import json
+import string
 import sys
 
 from ai_fingerprinting_tool.options import Options
@@ -51,17 +53,46 @@ class UI(metaclass=SingletonUI):
         self.printVerbose('--- Results ---')
         
         if self.__options.getOutputFormat() == 'json':
-            resultDict = {self.__options.getTarget():inResult[0]}
+            resultDict = {inResult.getTarget():inResult.getOS()}
             result = json.dumps(resultDict)
             
         elif self.__options.getOutputFormat() == 'grep':
-            result = '{}\t{}'.format(self.__options.getTarget(),inResult[0])
+            result = '{}\t{}'.format(inResult.getTarget(),inResult.getOS())
             
         else :
-            result = '{} -> {}'.format(self.__options.getTarget(),inResult[0])
+            result = '{} -> {}'.format(inResult.getTarget(),inResult.getOS())
             
         self.printMessage(result)
         
         if self.__options.getOutputFile():
             with open(self.__options.getOutputFile(), 'a') as f:
                 f.write(result + '\n')
+                
+#################################################################################
+
+
+class AbstractResult(ABC):
+    
+    @abstractmethod
+    def getTarget(self) -> string:
+        pass
+    
+    @abstractmethod
+    def getOS(self) -> string:
+        pass
+    
+    @abstractmethod
+    def setTarget(self, target: str):
+        pass
+    
+    @abstractmethod
+    def setOS(self, os: str):
+        pass
+    
+    @abstractmethod
+    def getAdditionalInfo(self,key) -> string:
+        pass
+    
+    @abstractmethod
+    def setAdditionalInfo(self,key,value):
+        pass

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ai_fingerprinting_tool.ui import UI, Options
+from ai_fingerprinting_tool.ui import UI, AbstractResult, Options
 
 from ai_fingerprinting_tool.sniff import AbstractTrafficCapture
 from ai_fingerprinting_tool.signature_generation import AbstractSignature
@@ -438,7 +438,34 @@ class p0fClassificator(AbstractClassificator):
             
         Xdata = transformed_signature.drop(['os','sig_direction'],axis = 1).values
         
-        result = classifier.predict(Xdata)
+        guessOS = classifier.predict(Xdata)
+        
+        ui = UI()
+        result = p0fResult(ui.getOptions().getTarget(),guessOS[0])
         
         return result
+
+
+class p0fResult(AbstractResult):
     
+    def __init__(self,target,os):
+        self.__result = {'os': os,
+                         'target': target}
+    
+    def setTarget(self, target: str):
+        self.__result['target'] = target
+        
+    def setOS(self, os: str):
+        self.__result['os'] = os
+    
+    def getTarget(self):
+        return self.__result['target']
+    
+    def getOS(self):
+        return self.__result['os']
+    
+    def getAdditionalInfo(self,key):
+        return self.__result[key]
+    
+    def setAdditionalInfo(self, key, value):
+        self.__result[key] = value

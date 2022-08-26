@@ -23,9 +23,12 @@ class Options():
             class_ = getattr(module, scanName+"SpecificParser")
             scanInstance = class_()
             scanInstance.createSpecificParser(self.__parser)
-        
-    def parseArguments(self):
-        self.args = self.__parser.parse_args()
+    
+    def parseArguments(self, externalArgs=None):
+        if externalArgs is not None:
+            self.args = self.__parser.parse_args(externalArgs)
+        else:
+            self.args = self.__parser.parse_args()
     
     def getArgs(self):
         return self.args
