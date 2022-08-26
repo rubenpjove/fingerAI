@@ -23,11 +23,11 @@ class UI(metaclass=SingletonUI):
     def __init__(self):
         self.__options = Options()
     
-    def parseOptions(self):
-        self.__options.parseArguments()
+    def parseOptions(self,externalArgs=None):
+        self.__options.parseArguments(externalArgs)
         
-        if os.getuid() != 0:
-            sys.exit('You must be root to run this program (UID: {})'.format(os.getuid()))
+        # if os.getuid() != 0:
+        #     sys.exit('You must be root to run this program (UID: {})'.format(os.getuid()))
         
         return self.__options
     

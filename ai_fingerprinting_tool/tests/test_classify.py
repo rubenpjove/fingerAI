@@ -153,3 +153,67 @@ macosx2 = {
     'quirk_ts': 0,
     'os': 'Mac OS X'
 }
+
+
+import pytest
+from ai_fingerprinting_tool.ui import UI
+from ai_fingerprinting_tool.scan import ScanGenerator
+from ai_fingerprinting_tool.scanners.p0f import p0fSignature
+
+@pytest.fixture(scope='module')
+def preparation():
+    ui = UI()
+    options = ui.parseOptions(["p0f","active","target"])
+    scanGenerator = ScanGenerator()
+    scan,options = scanGenerator.createScan(options)
+    ui.updateOptions(options)
+    return scan
+
+@pytest.mark.parametrize("signature,p0fExpected", [
+    (ubuntu,"Linux"),
+    (ubuntu2,"Linux"),
+    (windows,"Windows"),
+    (windows2,"Windows"),
+    (solaris,"Solaris"),
+    (solaris2,"Solaris"),
+    (freebsd,"FreeBSD"),
+    (freebsd2,"FreeBSD"),
+    (openbsd,"OpenBSD"),
+    (openbsd2,"OpenBSD"),
+    (macosx,"Mac OS X"),
+    (macosx2,"Mac OS X")
+])
+def test_classification(preparation, signature, p0fExpected):
+    expected_result = signature['os']
+    signature.pop('os')
+    
+    p0fsig = p0fSignature(signature)
+    
+    classificator = preparation.createClassificator()
+    
+    assert classificator.classify(p0fsig).getOS() == expected_result
+    
+    
+@pytest.mark.parametrize("signature,p0fExpected", [
+    (ubuntu,"Linux"),
+    (ubuntu2,"Linux"),
+    (windows,"Windows"),
+    (windows2,"Windows"),
+    (solaris,"Solaris"),
+    (solaris2,"Linux"),
+    (freebsd,"FreeBSD"),
+    (freebsd2,"FreeBSD"),
+    (openbsd,"FreeBSD"),
+    (openbsd2,"Windows"),
+    (macosx,"Linux"),
+    (macosx2,"Windows")
+])
+def test_p0f_classification(preparation, signature, p0fExpected):
+    expected_result = p0fExpected
+    signature.pop('os')
+    
+    p0fsig = p0fSignature(signature)
+    
+    classificator = preparation.createClassificator()
+    
+    assert classificator.classify(p0fsig).getOS() == expected_result
