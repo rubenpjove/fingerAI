@@ -1,0 +1,236 @@
+10.56.67.68:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+10.56.67.19:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (111): Linux
+	AI (682): Linux
+	AI (688): Linux
+	AI (701): Linux
+
+10.56.67.60:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+10.56.67.61:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.62:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.63:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+	AI (443): Linux
+
+10.56.67.16:
+	nmap: (aggressive) Microsoft Windows XP SP2 (87%), Microsoft Windows 7 (85%), Microsoft Windows Server 2008 SP1 or Windows Server 2008 R2 (85%)
+	AI (135): Windows
+	AI (139): Windows
+	AI (445): Windows
+
+10.56.67.65:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.66:
+	nmap: (aggressive) AVtech Room Alert 26W environmental monitor (87%), FreeBSD 10.3-STABLE (85%), Microsoft Windows XP SP2 (85%)
+	AI (80): Windows
+
+10.56.67.67:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+10.56.67.250:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+10.56.67.32:
+	nmap: (normal) Linux 3.2 - 4.9
+	AI (22): Linux
+
+10.56.67.31:
+	nmap: (normal) Linux 3.2 - 4.9
+	AI (22): Linux
+
+10.56.67.156:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+10.56.67.222:
+	nmap: (normal) Linux 3.2 - 3.16
+	AI (80): Linux
+	AI (554): Linux
+
+10.56.67.24:
+	nmap: (aggressive) Microsoft Windows Server 2008 SP1 or Windows Server 2008 R2 (86%), Microsoft Windows XP SP2 (85%), 
+	AI (135): Windows
+	AI (139): Windows
+	AI (445): Windows
+
+10.56.67.220:
+	nmap: (normal) Linux 3.2 - 4.9
+	AI (21): no response
+	AI (22): no response
+	AI (80): no response
+	AI (111): Linux
+	AI (135): Linux
+	AI (139): Linux
+	AI (389): no response
+	AI (445): Linux
+	AI (636): no response
+
+10.56.67.221:
+	nmap: (normal) Linux 3.2 - 3.16
+	AI (80): Linux
+	AI (554): Linux
+
+10.56.67.132:
+	nmap: (normal) HP iLO 4 remote management interface
+	AI (80): FreeBSD
+	AI (443): FreeBSD
+	AI (515): FreeBSD
+	AI (631): FreeBSD
+
+10.56.67.131:
+	nmap: (aggressive) Canon imageRUNNER ADVANCE C3320i or C3325 copier (99%), Android 2.3.5 (Linux 2.6) (98%), Epson WF-2660 printer (98%)
+	AI (80): Linux
+	AI (443): Linux
+	AI (515): Linux
+	AI (587): Linux
+
+10.56.67.135:
+	nmap: (normal) Linux 2.6.32
+	AI: No open ports
+
+10.56.67.107:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+10.56.67.53:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.55:
+	nmap: (normal) Linux 3.2 - 4.9
+	AI (22): Linux
+
+10.56.67.54:
+	nmap: (normal) Linux 3.2 - 4.9
+	AI (22): Linux
+
+10.56.67.100:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+10.56.67.56:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.59:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+10.56.67.108:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+10.56.67.114:
+	nmap: (aggressive) Microsoft Windows XP SP2 (87%), Microsoft Windows 7 (85%), Microsoft Windows Server 2008 SP1 or Windows Server 2008 R2 (85%)
+	AI (135): Windows
+	AI (139): Windows
+	AI (445): Windows
+
+10.56.67.111:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.112:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (111): Linux
+
+10.56.67.113:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (111): Linux
+
+10.56.67.48:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+10.56.67.49:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.46:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.47:
+	nmap: (aggressive) AVtech Room Alert 26W environmental monitor (87%), FreeBSD 6.2-RELEASE (86%), FreeBSD 10.3-STABLE (85%)
+	AI: No open ports
+
+10.56.67.44:
+	nmap: (aggressive) Linux 2.6.32 - 3.13 (95%), Linux 2.6.22 - 2.6.36 (93%), Linux 3.10 - 4.11 (93%)
+	AI (22): Linux
+	AI (80): Linux
+	AI (443): no response
+
+10.56.67.45:
+	nmap: (aggressive) Microsoft Windows XP SP2 (85%), , 
+	AI: No open ports
+
+10.56.67.200:
+	nmap: (normal) Linux 3.10 - 4.11, Linux 3.16 - 4.6, Linux 3.2 - 4.9
+	AI (35): Linux
+
+10.56.67.1:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+10.56.67.73:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.72:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.71:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.70:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.77:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+10.56.67.76:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+10.56.67.75:
+	nmap: (aggressive) Linux 2.6.32 (94%), Linux 3.10 - 4.11 (94%), Linux 3.2 - 4.9 (94%)
+	AI (22): Linux

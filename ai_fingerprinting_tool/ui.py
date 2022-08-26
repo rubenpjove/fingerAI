@@ -1,75 +1,12 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-import argparse
 import os
+import json
+import string
 import sys
 
-class Options:
-    
-    def __init__(self):
+from ai_fingerprinting_tool.options import Options
 
-        self.__parser = argparse.ArgumentParser(description='Fingerprinting tool based on artifial intelligence',
-                                                prog='ai_fingerprinting_tool',
-                                                epilog="See '<command> --help' to read about a specific sub-command.")
-        self.__parser.add_argument('-v', '--verbose', action='store_true', default=False, help='print verbose messages')
-        self.__parser.add_argument('-d', '--debug', action='store_true', default=False, help='print debug messages')
-        
-        subparsers = self.__parser.add_subparsers(dest='command', help='Scans available')
-        
-        p0fparser = p0fSpecificParser()
-        p0fparser.createSpecificParser(subparsers)
-        
-    def parseArguments(self):
-        self.__args = self.__parser.parse_args()
-        if self.__args.command is not None:
-            print(self.__args)
-        else:
-            self.__parser.print_help()
-            sys.exit()
-        
-    def getMode(self):
-        return self.__args.mode
-    
-    def getTarget(self):
-        return self.__args.target
-    
-    def getInterface(self):
-        return self.__args.interface
-
-    def getTimeout(self):
-        return self.__args.timeout
-    
-    def getVerbose(self):
-        return self.__args.verbose or self.__args.debug
-    
-    def getDebug(self):
-        return self.__args.debug
-    
-class AbstractSpecificOptions(ABC):
-    
-    @abstractmethod
-    def createSpecificParser(self) -> None:
-        pass
-
-class p0fSpecificParser(AbstractSpecificOptions,Options):
-    
-    def createSpecificParser(self,subparsers) -> None:
-        p0fparser = subparsers.add_parser('p0f', help='Based on p0f database')
-        
-        p0fparser.add_argument('-i', '--interface', help='interface to sniff')
-        p0fparser.add_argument('-t', '--timeout', type=int, help='timeout for sniffing')
-        
-        subparsers2 = p0fparser.add_subparsers(dest='mode', help='Scans available')
-        activeparser = subparsers2.add_parser('active', help='Active scan')
-        activeparser.add_argument('-p', '--port', type=int, default=80)
-        activeparser.add_argument('target', help='target of the scan')
-        
-        passiveparser = subparsers2.add_parser('passive', help='Passive scan')
-        passiveparser.add_argument('target', help='target of the scan')
-        
-        
-        
-################################################################################
 
 class SingletonUI(type):
 
@@ -94,17 +31,68 @@ class UI(metaclass=SingletonUI):
         
         return self.__options
     
+    def updateOptions(self,options):
+        self.__options = options
+        
+    def getOptions(self):
+        return self.__options
+    
     def printMessage(self,message):
-        print(message)
+        if not self.__options.getQuiet():
+            print(message)
     
     def printVerbose(self,message):
-        if self.__options.getVerbose() is True or self.__options.getDebug() is True:
+        if not self.__options.getQuiet() and ( self.__options.getVerbose() or self.__options.getDebug() ):
             print(message)
     
     def printDebug(self,message):
-        if self.__options.getDebug() is True:
+        if not self.__options.getQuiet() and (self.__options.getDebug()):
             print(message)
     
-    def showResults(self,result):
-        print('Results:')
-        print('\tTarget: {} -> OS: {}'.format(self.__options.getTarget(),result[0]))
+    def showResults(self,inResult):
+        self.printVerbose('--- Results ---')
+        
+        if self.__options.getOutputFormat() == 'json':
+            resultDict = {inResult.getTarget():inResult.getOS()}
+            result = json.dumps(resultDict)
+            
+        elif self.__options.getOutputFormat() == 'grep':
+            result = '{}\t{}'.format(inResult.getTarget(),inResult.getOS())
+            
+        else :
+            result = '{} -> {}'.format(inResult.getTarget(),inResult.getOS())
+            
+        self.printMessage(result)
+        
+        if self.__options.getOutputFile():
+            with open(self.__options.getOutputFile(), 'a') as f:
+                f.write(result + '\n')
+                
+#################################################################################
+
+
+class AbstractResult(ABC):
+    
+    @abstractmethod
+    def getTarget(self) -> string:
+        pass
+    
+    @abstractmethod
+    def getOS(self) -> string:
+        pass
+    
+    @abstractmethod
+    def setTarget(self, target: str):
+        pass
+    
+    @abstractmethod
+    def setOS(self, os: str):
+        pass
+    
+    @abstractmethod
+    def getAdditionalInfo(self,key) -> string:
+        pass
+    
+    @abstractmethod
+    def setAdditionalInfo(self,key,value):
+        pass
