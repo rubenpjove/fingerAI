@@ -1,6 +1,4 @@
-import pytest
 from ai_fingerprinting_tool.options import Options
-from ai_fingerprinting_tool.scanners.p0f import p0fOptions
 
 def optionsFixture(params):
     options = Options()
