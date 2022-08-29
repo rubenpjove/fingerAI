@@ -128,3 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 ai_nmap_model_creation/dataset.csv
+ai_model_creation/ai_nmap_model_creation/dataset.csv
