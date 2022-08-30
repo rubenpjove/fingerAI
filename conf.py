@@ -11,5 +11,5 @@ p0f_REQUEST_CLASSIFIER = os.path.join(PERSISTENCE_p0f_DIR, 'p0f_classifier_reque
 p0f_RESPONSE_CLASSIFIER = os.path.join(PERSISTENCE_p0f_DIR, 'p0f_classifier_response.joblib')
 
 PERSISTENCE_nmap_DIR = os.path.join(PERSISTENCE_DIR, 'nmap')
-nmap_ENCODERS = os.path.join(PERSISTENCE_p0f_DIR, 'nmap_encoders.joblib')
-nmap_CLASSIFIER = os.path.join(PERSISTENCE_p0f_DIR, 'nmap_classifier.joblib')
+nmap_ENCODERS = os.path.join(PERSISTENCE_nmap_DIR, 'nmap_encoders.joblib')
+nmap_CLASSIFIER = os.path.join(PERSISTENCE_nmap_DIR, 'nmap_classifier.joblib')

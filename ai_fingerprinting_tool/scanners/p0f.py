@@ -46,25 +46,7 @@ from ai_fingerprinting_tool.options import AbstractSpecificParser
 class p0fOptions(Options,AbstractOptions):
     
     def __init__(self,args):
-        self.args = args
-    
-    def getMode(self):
-        return self.args.mode
-    
-    def getTarget(self):
-        return self.args.target
-    
-    def getInterface(self):
-        return self.args.interface
-
-    def getTimeout(self):
-        return self.args.timeout
-    
-    def getPort(self):
-        return self.args.port
-    
-    def getInputFile(self):
-        return self.args.inputFile
+        AbstractOptions.__init__(self,args)
     
     def getp0fToolResult(self):
         return self.args.p0fToolResult
@@ -72,15 +54,7 @@ class p0fOptions(Options,AbstractOptions):
 
 class p0fSpecificParser(AbstractSpecificParser):
     
-    def createSpecificParser(self,parser) -> None:
-        group = parser.add_argument_group('p0f specific options')
-
-        group.add_argument('mode', choices=['active','passive'], help='mode of operation')
-        group.add_argument('target', help='target of the scan')
-        group.add_argument('-p', '--port', type=int, default=80, help='port to scan (active mode)')
-        group.add_argument('-i', '--interface', help='interface to sniff')
-        group.add_argument('-t', '--timeout', type=int, help='timeout for sniffing')
-        group.add_argument('-iF', '--inputFile', required=False, help='PCAP input file')
+    def createSpecificParser(self,group) -> None:
         group.add_argument('-p0f', '--p0fToolResult', action='store_true', default=False, help='prints also the result from the original p0f tool')
            
 ################################################################################
@@ -424,7 +398,7 @@ class p0fClassificator(AbstractClassificator):
             classifier = load(conf.p0f_REQUEST_CLASSIFIER)
         else:
             classifier = load(conf.p0f_RESPONSE_CLASSIFIER)
-            
+        
         Xdata = transformed_signature.drop(['os','sig_direction'],axis = 1).values
         
         guessOS = classifier.predict(Xdata)

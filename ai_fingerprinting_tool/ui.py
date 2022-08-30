@@ -1,7 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-import json
-import string
+import json, string, os, sys
 
 from ai_fingerprinting_tool.options import Options
 
@@ -21,11 +20,11 @@ class UI(metaclass=SingletonUI):
     def __init__(self):
         self.__options = Options()
     
-    def parseOptions(self,externalArgs=None):
+    def parseOptions(self,externalArgs=None,test=False):
         self.__options.parseArguments(externalArgs)
         
-        # if os.getuid() != 0:
-        #     sys.exit('You must be root to run this program (UID: {})'.format(os.getuid()))
+        if not test and os.getuid() != 0:
+            sys.exit('You must be root to run this program (UID: {})'.format(os.getuid()))
         
         return self.__options
     

@@ -46,38 +46,13 @@ from ai_fingerprinting_tool.options import AbstractSpecificParser
 class nmapOptions(Options,AbstractOptions):
     
     def __init__(self,args):
-        self.args = args
-    
-    def getMode(self):
-        return self.args.mode
-    
-    def getTarget(self):
-        return self.args.target
-    
-    def getInterface(self):
-        return self.args.interface
-
-    def getTimeout(self):
-        return self.args.timeout
-    
-    def getPort(self):
-        return self.args.port
-    
-    def getInputFile(self):
-        return self.args.inputFile
+        AbstractOptions.__init__(self,args)
 
 
 class nmapSpecificParser(AbstractSpecificParser):
     
     def createSpecificParser(self,parser) -> None:
-        group = parser.add_argument_group('nmap specific options')
-
-        group.add_argument('mode', choices=['active','passive'], help='mode of operation')
-        group.add_argument('target', help='target of the scan')
-        group.add_argument('-p', '--port', type=int, default=80, help='port to scan (active mode)')
-        group.add_argument('-i', '--interface', help='interface to sniff')
-        group.add_argument('-t', '--timeout', type=int, help='timeout for sniffing')
-        group.add_argument('-iF', '--inputFile', required=False, help='PCAP input file')
+        pass
            
 ################################################################################
 
@@ -98,7 +73,7 @@ class nmapSniffer(AbstractSniffer):
         self.__interface = options.getInterface()
         self.__timeout = options.getTimeout()
         self.__monitor = True
-        self.__stop_filter = lambda pkt: True if ( (pkt != None and pkt.haslayer(IP) and pkt.haslayer(TCP)) and ( ('S' in pkt[TCP].flags and pkt[IP].src == self.__target) )) else False
+        self.__stop_filter = lambda pkt: True if ( (pkt != None and pkt.haslayer(IP) and pkt.haslayer(TCP)) and ( ('S' in pkt[TCP].flags and 'A' in pkt[TCP].flags and pkt[IP].src == self.__target) )) else False
         self.__verbose = options.getVerbose()
         self.__debug = options.getDebug()
         self.__port = options.getPort()
@@ -107,7 +82,7 @@ class nmapSniffer(AbstractSniffer):
         self.__captured_packets = None
         
         self.__prn_function = lambda pkt: "%s: %s" % (pkt.sniffed_on, pkt.summary()) if ( (pkt != None and pkt.haslayer(IP) and pkt.haslayer(TCP)) and 
-                                                                                     ( ('S' in pkt[TCP].flags and pkt[IP].src == self.__target) )) else None
+                                                                                     ( ('S' in pkt[TCP].flags and 'A' in pkt[TCP].flags and pkt[IP].src == self.__target) )) else None
     
     
     def sniff(self):
@@ -215,12 +190,6 @@ class nmapTrafficPreprocessor(AbstractTrafficPreprocessor):
                 ):
                 if (
                     'S' in packet[TCP].flags and
-                    not 'A' in packet[TCP].flags and
-                    packet[IP].src == target
-                    ):
-                    result.append(packet)
-                elif (
-                    'S' in packet[TCP].flags and
                     'A' in packet[TCP].flags and
                     packet[IP].src == target
                 ):
@@ -261,26 +230,14 @@ class nmapSignatureGenerator(AbstractSignatureGenerator):
         tcpOptions = dict(packet[TCP].options)
         
         signature = {
-            'sig_direction': '*',
             'initial_ttl': '*',
             'mss': '*',
             'window_size': '*',
             'window_scaling': '*',
             'tcp_options': '',
             'quirk_df': 0,
-            'quirk_id': 0,
             'quirk_ts': 0
         }
-        
-        # Signature Direction
-        if (
-            'S' in packet[TCP].flags and not 'A' in packet[TCP].flags
-            ):
-            signature['sig_direction'] = 'request'
-        elif (
-            'S' in packet[TCP].flags and 'A' in packet[TCP].flags
-        ):
-            signature['sig_direction'] = 'response'
             
         # Initial TTL
         signature['initial_ttl'] = str(packet[IP].ttl)
@@ -320,12 +277,6 @@ class nmapSignatureGenerator(AbstractSignatureGenerator):
         #   DF
         if packet[IP].flags.value == 2:
             signature['quirk_df'] = 1
-        #   ID
-        if (
-            signature['quirk_df'] == 1 and
-            packet[IP].id != 0
-        ):
-            signature['quirk_id'] = 1
         #   TS
         if (
             'Timestamp' in tcpOptions and
@@ -359,14 +310,12 @@ class nmapSignature(AbstractSignature):
     
     def getList(self):
         return [
-            self.__signature['sig_direction'],
             self.__signature['initial_ttl'],
             self.__signature['mss'],
             self.__signature['window_size'],
             self.__signature['window_scaling'],
             self.__signature['tcp_options'],
             self.__signature['quirk_df'],
-            self.__signature['quirk_id'],
             self.__signature['quirk_ts']
         ]
         
@@ -408,10 +357,9 @@ class nmapClassificator(AbstractClassificator):
             columns=encoders.get_feature_names_out()
         )
 
-        
         classifier = load(conf.nmap_CLASSIFIER)
-            
-        Xdata = transformed_signature.drop(['os','sig_direction'],axis = 1).values
+        
+        Xdata = transformed_signature.drop(['os'],axis = 1).values
         
         guessOS = classifier.predict(Xdata)
         

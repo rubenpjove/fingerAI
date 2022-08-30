@@ -163,7 +163,7 @@ from ai_fingerprinting_tool.scanners.p0f import p0fSignature
 @pytest.fixture(scope='module')
 def preparation():
     ui = UI()
-    options = ui.parseOptions(["p0f","active","target"])
+    options = ui.parseOptions(["p0f","active","target"],True)
     scanGenerator = ScanGenerator()
     scan,options = scanGenerator.createScan(options)
     ui.updateOptions(options)
