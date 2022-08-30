@@ -99,7 +99,7 @@ class p0fSniffer(AbstractSniffer):
         self.__target = options.getTarget()
         self.__interface = options.getInterface()
         self.__timeout = options.getTimeout()
-        self.__monitor = False
+        self.__monitor = True
         self.__stop_filter = lambda pkt: True if ( (pkt != None and pkt.haslayer(IP) and pkt.haslayer(TCP)) and ( ('S' in pkt[TCP].flags and pkt[IP].src == self.__target) )) else False
         self.__verbose = options.getVerbose()
         self.__debug = options.getDebug()
