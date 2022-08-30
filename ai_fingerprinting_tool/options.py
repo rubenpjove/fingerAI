@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import argparse
 import importlib
 
-from ai_fingerprinting_tool.constants import SCANS
+from conf import SCANS
 
 
 class Options():

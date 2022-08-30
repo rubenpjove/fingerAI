@@ -5,6 +5,8 @@ from ai_fingerprinting_tool.ui import UI, AbstractResult, Options
 from ai_fingerprinting_tool.sniff import AbstractTrafficCapture
 from ai_fingerprinting_tool.signature_generation import AbstractSignature
 
+import conf
+
 from scapy.plist import PacketList
 from scapy.layers.all import IP, TCP
 
@@ -19,29 +21,29 @@ from ai_fingerprinting_tool.signature_generation import AbstractSignatureGenerat
 from ai_fingerprinting_tool.classify import AbstractClassificator
 
 
-class p0fScan(AbstractScan):
+class nmapScan(AbstractScan):
     
     def createOptions(self,options) -> AbstractOptions:
-        return p0fOptions(options.getArgs())
+        return nmapOptions(options.getArgs())
     
     def createSniffer(self,options) -> AbstractSniffer:
-        return p0fSniffer(options)
+        return nmapSniffer(options)
 
     def createTrafficPreprocessor(self,options) -> AbstractTrafficPreprocessor:
-        return p0fTrafficPreprocessor(options)
+        return nmapTrafficPreprocessor(options)
     
     def createSignatureGenerator(self) -> AbstractSignatureGenerator:
-        return p0fSignatureGenerator()
+        return nmapSignatureGenerator()
     
     def createClassificator(self) -> AbstractClassificator:
-        return p0fClassificator()
+        return nmapClassificator()
     
 ################################################################################
 
 from ai_fingerprinting_tool.options import AbstractSpecificParser
 
 
-class p0fOptions(Options,AbstractOptions):
+class nmapOptions(Options,AbstractOptions):
     
     def __init__(self,args):
         self.args = args
@@ -63,15 +65,12 @@ class p0fOptions(Options,AbstractOptions):
     
     def getInputFile(self):
         return self.args.inputFile
-    
-    def getp0fToolResult(self):
-        return self.args.p0fToolResult
 
 
-class p0fSpecificParser(AbstractSpecificParser):
+class nmapSpecificParser(AbstractSpecificParser):
     
     def createSpecificParser(self,parser) -> None:
-        group = parser.add_argument_group('p0f specific options')
+        group = parser.add_argument_group('nmap specific options')
 
         group.add_argument('mode', choices=['active','passive'], help='mode of operation')
         group.add_argument('target', help='target of the scan')
@@ -79,7 +78,6 @@ class p0fSpecificParser(AbstractSpecificParser):
         group.add_argument('-i', '--interface', help='interface to sniff')
         group.add_argument('-t', '--timeout', type=int, help='timeout for sniffing')
         group.add_argument('-iF', '--inputFile', required=False, help='PCAP input file')
-        group.add_argument('-p0f', '--p0fToolResult', action='store_true', default=False, help='prints also the result from the original p0f tool')
            
 ################################################################################
 
@@ -91,7 +89,7 @@ from scapy.all import sniff as scapy_sniff
 from scapy.all import sr1 as scapy_sr
 
 
-class p0fSniffer(AbstractSniffer):
+class nmapSniffer(AbstractSniffer):
     
     def __init__(self,options):
         self.__mode = options.getMode()
@@ -178,10 +176,10 @@ class p0fSniffer(AbstractSniffer):
             raise Exception('Unknown mode')
     
     def getCapturedPackets(self):
-        return p0fTrafficCapture(self.__captured_packets)
+        return nmapTrafficCapture(self.__captured_packets)
 
 
-class p0fTrafficCapture(AbstractTrafficCapture):
+class nmapTrafficCapture(AbstractTrafficCapture):
     
     def __init__(self,packets: PacketList):
         self.__packets = packets
@@ -192,7 +190,7 @@ class p0fTrafficCapture(AbstractTrafficCapture):
 ################################################################################
 
 
-class p0fTrafficPreprocessor(AbstractTrafficPreprocessor):
+class nmapTrafficPreprocessor(AbstractTrafficPreprocessor):
     
     def __init__(self,options:Options):
         self.__target = options.getTarget()
@@ -231,17 +229,15 @@ class p0fTrafficPreprocessor(AbstractTrafficPreprocessor):
         self.__preprocessedTraffic = PacketList(result)
 
     def getPreprocessedTraffic(self):
-        return p0fTrafficCapture(self.__preprocessedTraffic)
+        return nmapTrafficCapture(self.__preprocessedTraffic)
 
 ################################################################################
 
 import pandas as pd
 import sys
 
-import scapy_p0f
 
-
-class p0fSignatureGenerator(AbstractSignatureGenerator):
+class nmapSignatureGenerator(AbstractSignatureGenerator):
     
     def __init__(self):
         pass
@@ -257,12 +253,6 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
         
         ui = UI()
         ui.printDebug('Generating signature for packet:\n%s' % packet.show(dump=True))
-        
-        options = ui.getOptions()
-        
-        if options.getp0fToolResult():
-            p0fResult = scapy_p0f.p0f(packet)
-            ui.printMessage('Result from original p0f tool:\n%s\n' % p0fResult[0][2])
         
         if not packet.haslayer(TCP):
             raise Exception("No TCP packet")
@@ -346,12 +336,12 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
         self.__signature = signature
         
     def getSignature(self):
-        return p0fSignature(self.__signature)
+        return nmapSignature(self.__signature)
         
 ################################################################################
 
 
-class p0fSignature(AbstractSignature):
+class nmapSignature(AbstractSignature):
     
     def __init__(self):
         self.__signature = {}
@@ -390,11 +380,11 @@ class p0fSignature(AbstractSignature):
 
 from joblib import load
 import pandas as pd
-from ai_model_creation.ai_p0f_model_creation.transformers import *
+from ai_model_creation.ai_nmap_model_creation.transformers import *
 import warnings
+import os
 
-
-class p0fClassificator(AbstractClassificator):
+class nmapClassificator(AbstractClassificator):
     
     def __init__(self):
         pass
@@ -404,7 +394,7 @@ class p0fClassificator(AbstractClassificator):
         
         warnings.filterwarnings("ignore")
         
-        encoders = load('persistence/encoders.joblib')
+        encoders = load(conf.nmap_ENCODERS)
         
         df_signature = signature.getDataFrame()
         
@@ -418,22 +408,20 @@ class p0fClassificator(AbstractClassificator):
             columns=encoders.get_feature_names_out()
         )
 
-        if transformed_signature.sig_direction.values[0] == 'request':
-            classifier = load('persistence/classifier_request.joblib')
-        else:
-            classifier = load('persistence/classifier_response.joblib')
+        
+        classifier = load(conf.nmap_CLASSIFIER)
             
         Xdata = transformed_signature.drop(['os','sig_direction'],axis = 1).values
         
         guessOS = classifier.predict(Xdata)
         
         ui = UI()
-        result = p0fResult(ui.getOptions().getTarget(),guessOS[0])
+        result = nmapResult(ui.getOptions().getTarget(),guessOS[0])
         
         return result
 
 
-class p0fResult(AbstractResult):
+class nmapResult(AbstractResult):
     
     def __init__(self,target,os):
         self.__result = {'os': os,

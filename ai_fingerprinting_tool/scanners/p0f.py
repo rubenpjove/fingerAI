@@ -5,6 +5,8 @@ from ai_fingerprinting_tool.ui import UI, AbstractResult, Options
 from ai_fingerprinting_tool.sniff import AbstractTrafficCapture
 from ai_fingerprinting_tool.signature_generation import AbstractSignature
 
+import conf
+
 from scapy.plist import PacketList
 from scapy.layers.all import IP, TCP
 
@@ -404,7 +406,7 @@ class p0fClassificator(AbstractClassificator):
         
         warnings.filterwarnings("ignore")
         
-        encoders = load('persistence/encoders.joblib')
+        encoders = load(conf.p0f_ENCODERS)
         
         df_signature = signature.getDataFrame()
         
@@ -419,9 +421,9 @@ class p0fClassificator(AbstractClassificator):
         )
 
         if transformed_signature.sig_direction.values[0] == 'request':
-            classifier = load('persistence/classifier_request.joblib')
+            classifier = load(conf.p0f_REQUEST_CLASSIFIER)
         else:
-            classifier = load('persistence/classifier_response.joblib')
+            classifier = load(conf.p0f_RESPONSE_CLASSIFIER)
             
         Xdata = transformed_signature.drop(['os','sig_direction'],axis = 1).values
         
