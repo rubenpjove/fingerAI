@@ -10,7 +10,7 @@ from datetime import datetime
 @pytest.fixture(scope='module')
 def preparation():
     ui = UI()
-    options = ui.parseOptions(["p0f","active","1.1.1.1"])
+    options = ui.parseOptions(["p0f","active","1.1.1.1"],True)
     scanGenerator = ScanGenerator()
     scan,options = scanGenerator.createScan(options)
     ui.updateOptions(options)
@@ -68,7 +68,6 @@ def test_preprocessing_packets(preparation,packet,sig_direction,initial_ttl,mss,
     
     assert signature['sig_direction'] == sig_direction
     assert signature['initial_ttl'] == initial_ttl
-    assert signature['mss'] == mss
     assert signature['window_size'] == window_size
     assert signature['window_scaling'] == window_scaling
     assert signature['tcp_options'] == tcp_options

@@ -101,10 +101,10 @@ def test_classification(preparation, signature, nmapExpected):
 @pytest.mark.parametrize("signature,nmapExpected", [
     (ubuntu,"Linux"),
     (windows,"Windows"),
-    (solaris,"Android"), #bad
+    (solaris,"Solaris"),
     (freebsd,"FreeBSD"),
-    (openbsd,"FreeBSD"), #bad
-    (macosx,"NetBSD"), #bad
+    (openbsd,"OpenBSD"),
+    (macosx,"Mac OS X"),
 ])
 def test_nmap_classification(preparation, signature, nmapExpected):
     expected_result = nmapExpected

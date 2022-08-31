@@ -249,7 +249,6 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
         signature = {
             'sig_direction': '*',
             'initial_ttl': '*',
-            'mss': '*',
             'window_size': '*',
             'window_scaling': '*',
             'tcp_options': '',
@@ -270,10 +269,6 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
             
         # Initial TTL
         signature['initial_ttl'] = str(packet[IP].ttl)
-        
-        # MSS
-        if 'MSS' in tcpOptions:
-            signature['mss'] = str(tcpOptions['MSS'])
             
         # Window Size
         signature['window_size'] = str(tcpPacket.window)
@@ -347,7 +342,6 @@ class p0fSignature(AbstractSignature):
         return [
             self.__signature['sig_direction'],
             self.__signature['initial_ttl'],
-            self.__signature['mss'],
             self.__signature['window_size'],
             self.__signature['window_scaling'],
             self.__signature['tcp_options'],

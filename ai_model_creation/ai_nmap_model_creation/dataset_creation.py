@@ -8,9 +8,9 @@ df = pd.DataFrame(dataset_list, columns=column_names)
 
 def group_classes(os_class):
     if os_class in ['MacOS','macOS','MacOSX','OSX']:
-        return 'macOS'
-    elif os_class in ['IOS','iOS','iPhoneOS']:
-        return 'iOS'
+        return 'Mac OS X'
+    # elif os_class in ['IOS','iOS','iPhoneOS']:
+    #     return 'iOS'
     # elif 'BSD' in os_class:
     #     return 'BSD'
     else:

@@ -9,7 +9,7 @@ from scapy.layers.all import IP, TCP, UDP, ICMP, IPv6
 @pytest.fixture(scope='module')
 def preparation():
     ui = UI()
-    options = ui.parseOptions(["p0f","active","1.1.1.1"])
+    options = ui.parseOptions(["p0f","active","1.1.1.1"],True)
     scanGenerator = ScanGenerator()
     scan,options = scanGenerator.createScan(options)
     ui.updateOptions(options)

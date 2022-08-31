@@ -200,13 +200,13 @@ def test_classification(preparation, signature, p0fExpected):
     (windows,"Windows"),
     (windows2,"Windows"),
     (solaris,"Solaris"),
-    (solaris2,"Linux"),
+    (solaris2,"Solaris"),
     (freebsd,"FreeBSD"),
     (freebsd2,"FreeBSD"),
-    (openbsd,"FreeBSD"),
-    (openbsd2,"Windows"),
-    (macosx,"Linux"),
-    (macosx2,"Windows")
+    (openbsd,"OpenBSD"),
+    (openbsd2,"OpenBSD"),
+    (macosx,"Mac OS X"),
+    (macosx2,"Mac OS X")
 ])
 def test_p0f_classification(preparation, signature, p0fExpected):
     expected_result = p0fExpected
