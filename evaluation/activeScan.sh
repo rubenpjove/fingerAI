@@ -1,11 +1,12 @@
 #!/bin/bash
 
-if [[ $# -ne 1 ]]; then
-    echo "Usage: sudo $0 <network>"
+if [[ $# -ne 2 ]]; then
+    echo "Usage: sudo $0 <network> <scanner>"
     exit 1
 fi
 
 network=$1
+scan_type=$2
 
 echo ""
 echo "-------- ARP Scan ----------"
@@ -84,7 +85,7 @@ for ip in "${!ips[@]}"; do
         echo -e "\tAI: No open ports"
     else
         for port in "${ports[@]}"; do
-            AIResult=`${tool} -p ${port} -o grep -t 5 p0f active ${ip} | awk '{print $2}'`
+            AIResult=`${tool} -p ${port} -o grep -t 5 ${scan_type} active ${ip} | awk '{print $2}'`
             
             
             if [[ ${AIResult} == "packets" ]]; then
