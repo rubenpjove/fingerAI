@@ -3,7 +3,7 @@ import pandas as pd
 import p0f_db_parser as parser
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
-from ai_model_creation.transformers import *
+from ai_model_creation.ai_p0f_model_creation.transformers import *
 from sklearn.compose import make_column_transformer
 from sklearn.compose import make_column_selector
 from sklearn.model_selection import train_test_split
@@ -22,7 +22,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 
-dataset,column_names = parser.parse_database("/home/ruben/AIFingerprintingTool/ai_model_creation/p0f.fp")
+dataset,column_names = parser.parse_database("/home/ruben/AIFingerprintingTool/ai_model_creation/ai_p0f_model_creation/p0f.fp")
 df = pd.DataFrame(dataset,columns=column_names)
 del dataset
 del column_names
@@ -31,6 +31,85 @@ del column_names
 df = df[df.os.isin(['Linux', 'Windows', 'Mac OS X', 'Solaris', 'OpenBSD', 'FreeBSD'])]
 df.reset_index(inplace=True, drop=True)
 df.drop('version', inplace=True, axis=1)
+solaris = pd.DataFrame({
+    'sig_direction': 'response',
+    'initial_ttl': 64,
+    'mss': '1460',
+    'window_size': '64074',
+    'window_scaling': '2',
+    'tcp_options': 'sok,ts,mss,nop,ws',
+    'quirk_df': 1,
+    'quirk_id': 1,
+    'quirk_ts': 0,
+    'os': 'Solaris'
+},index=[0])
+
+solaris2 = pd.DataFrame({
+    'sig_direction': 'request',
+    'initial_ttl': 64,
+    'mss': '1460',
+    'window_size': '64240',
+    'window_scaling': '2',
+    'tcp_options': 'mss,sok,ts,nop,ws',
+    'quirk_df': 1,
+    'quirk_id': 1,
+    'quirk_ts': 0,
+    'os': 'Solaris'
+},index=[0])
+
+openbsd = pd.DataFrame({
+    'sig_direction': 'response',
+    'initial_ttl': 64,
+    'mss': '1460',
+    'window_size': '16384',
+    'window_scaling': '6',
+    'tcp_options': 'mss,nop,sok,ws,ts',
+    'quirk_df': 1,
+    'quirk_id': 1,
+    'quirk_ts': 0,
+    'os': 'OpenBSD'
+},index=[0])
+
+openbsd2 = pd.DataFrame({
+    'sig_direction': 'request',
+    'initial_ttl': 64,
+    'mss': '1460',
+    'window_size': '16384',
+    'window_scaling': '6',
+    'tcp_options': 'mss,nop,sok,ws,ts',
+    'quirk_df': 1,
+    'quirk_id': 1,
+    'quirk_ts': 0,
+    'os': 'OpenBSD'
+},index=[0])
+
+macosx = pd.DataFrame({
+    'sig_direction': 'response',
+    'initial_ttl': 64,
+    'mss': '1460',
+    'window_size': '65535',
+    'window_scaling': '5',
+    'tcp_options': 'mss,nop,ws,ts,sok,eol',
+    'quirk_df': 1,
+    'quirk_id': 0,
+    'quirk_ts': 0,
+    'os': 'Mac OS X'
+},index=[0])
+
+macosx2 = pd.DataFrame({
+    'sig_direction': 'request',
+    'initial_ttl': 64,
+    'mss': '1460',
+    'window_size': '65535',
+    'window_scaling': '5',
+    'tcp_options': 'mss,nop,ws,ts,sok,eol',
+    'quirk_df': 1,
+    'quirk_id': 0,
+    'quirk_ts': 0,
+    'os': 'Mac OS X'
+},index=[0])
+
+df = pd.concat([df,solaris,solaris2,openbsd,openbsd2,macosx,macosx2], ignore_index = True,axis=0)
 ttl_factor = 10
 array = df.to_numpy()
 ttl_i = df.columns.get_loc('initial_ttl')
@@ -41,13 +120,12 @@ for row in array:
         
         array = np.vstack((array, new_row))  
 df = pd.DataFrame(array, columns = df.columns)
-encoder_mss = OneHotEncoder(drop=['*'], sparse=False, handle_unknown='ignore')
+df.drop('mss', inplace=True, axis=1)
 encoder_window_size = WindowSizeTransformer()
 encoder_window_scaling = OneHotEncoder(drop=['*'], sparse=False, handle_unknown='ignore')
 encoder_tcp_options = TCPOptionsTransformer()
 df.reset_index(inplace=True, drop=True)
 encoders = make_column_transformer(
-    (encoder_mss, ['mss']),
     (encoder_window_size, ['window_size']),
     (encoder_window_scaling, ['window_scaling']),
     (encoder_tcp_options, ['tcp_options']),
