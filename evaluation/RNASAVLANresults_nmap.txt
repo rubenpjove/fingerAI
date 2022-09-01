@@ -1,0 +1,58 @@
+
+-------- ARP Scan ----------
+
+192.168.1.1
+192.168.1.55
+192.168.1.56
+192.168.1.61
+192.168.1.62
+
+----------------------------
+----------------------------
+
+---- TCP SYN Port Scan -----
+
+192.168.1.1 -> No open ports
+192.168.1.55 -> 22 
+192.168.1.56 -> 22 
+192.168.1.61 -> 135 139 445 
+192.168.1.62 -> No open ports
+
+----------------------------
+----------------------------
+
+-- nmap OS Fingerprinting --
+
+192.168.1.1 -> (error) Too many fingerprints match this host to give specific OS details
+192.168.1.56 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.55 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.62 -> (error) Too many fingerprints match this host to give specific OS details
+192.168.1.61 -> (aggressive) Microsoft Windows XP SP2 (87%), Microsoft Windows 7 (85%), Microsoft Windows Server 2008 SP1 or Windows Server 2008 R2 (85%)
+
+----------------------------
+----------------------------
+
+--- AI OS Fingerprinting ---
+
+192.168.1.1:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+192.168.1.56:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.55:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.62:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+192.168.1.61:
+	nmap: (aggressive) Microsoft Windows XP SP2 (87%), Microsoft Windows 7 (85%), Microsoft Windows Server 2008 SP1 or Windows Server 2008 R2 (85%)
+	AI (135): Windows
+	AI (139): Windows
+	AI (445): Windows
+

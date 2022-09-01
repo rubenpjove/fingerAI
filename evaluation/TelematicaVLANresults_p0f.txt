@@ -1,0 +1,370 @@
+
+-------- ARP Scan ----------
+
+192.168.1.1
+192.168.1.5
+192.168.1.9
+192.168.1.10
+192.168.1.11
+192.168.1.39
+192.168.1.75
+192.168.1.90
+192.168.1.92
+192.168.1.95
+192.168.1.102
+192.168.1.103
+192.168.1.104
+192.168.1.105
+192.168.1.120
+192.168.1.121
+192.168.1.122
+192.168.1.131
+192.168.1.133
+192.168.1.134
+192.168.1.135
+192.168.1.140
+192.168.1.141
+192.168.1.142
+192.168.1.143
+192.168.1.144
+192.168.1.145
+192.168.1.146
+192.168.1.147
+192.168.1.148
+192.168.1.149
+192.168.1.210
+192.168.1.214
+192.168.1.217
+192.168.1.218
+192.168.1.220
+192.168.1.221
+192.168.1.222
+192.168.1.223
+192.168.1.230
+192.168.1.238
+192.168.1.241
+192.168.1.231
+
+----------------------------
+----------------------------
+
+---- TCP SYN Port Scan -----
+
+192.168.1.1 -> 443 
+192.168.1.5 -> 443 
+192.168.1.9 -> 22 80 427 443 902 
+192.168.1.10 -> 22 80 427 443 902 
+192.168.1.11 -> 22 80 427 443 902 
+192.168.1.39 -> 22 
+192.168.1.75 -> 21 22 80 139 443 445 548 873 
+192.168.1.90 -> No open ports
+192.168.1.92 -> 22 
+192.168.1.95 -> 22 
+192.168.1.102 -> 22 
+192.168.1.103 -> 22 
+192.168.1.104 -> 22 
+192.168.1.105 -> 22 
+192.168.1.120 -> No open ports
+192.168.1.121 -> 22 
+192.168.1.122 -> 21 22 80 139 443 445 873 
+192.168.1.131 -> 22 
+192.168.1.133 -> 22 
+192.168.1.134 -> 22 
+192.168.1.135 -> 22 
+192.168.1.140 -> 22 
+192.168.1.141 -> 22 
+192.168.1.142 -> 22 
+192.168.1.143 -> 22 
+192.168.1.144 -> 22 
+192.168.1.145 -> 22 
+192.168.1.146 -> 22 
+192.168.1.147 -> 22 
+192.168.1.148 -> 22 
+192.168.1.149 -> 22 80 
+192.168.1.210 -> 22 111 139 443 445 
+192.168.1.214 -> 135 139 445 
+192.168.1.217 -> No open ports
+192.168.1.218 -> No open ports
+192.168.1.220 -> 22 
+192.168.1.221 -> 22 
+192.168.1.222 -> 22 
+192.168.1.223 -> 21 22 23 25 53 80 111 139 445 512 513 514 
+192.168.1.230 -> No open ports
+192.168.1.238 -> 21 23 80 443 515 631 
+192.168.1.241 -> 22 
+192.168.1.231 -> No open ports
+
+----------------------------
+----------------------------
+
+-- nmap OS Fingerprinting --
+
+192.168.1.223 -> (normal) Linux 2.6.9 - 2.6.33
+192.168.1.222 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.221 -> (normal) Linux 3.2 - 4.9
+192.168.1.220 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.238 -> (normal) VxWorks
+192.168.1.230 -> (error) Too many fingerprints match this host to give specific OS details
+192.168.1.231 -> (error) Too many fingerprints match this host to give specific OS details
+192.168.1.241 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.9 -> (normal) VMware ESXi 4.1
+192.168.1.148 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.149 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.146 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.147 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.144 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.1 -> 
+192.168.1.145 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.142 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.143 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.140 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.10 -> (normal) VMware ESXi 4.1
+192.168.1.5 -> (aggressive) H3C Comware 5.20 (94%), 3Com 4200G or Huawei Quidway S5600 switch (89%), 3Com SuperStack 3 Switch 4500 (89%)
+192.168.1.141 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.11 -> (normal) VMware ESXi 6.0.0
+192.168.1.95 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.92 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.90 -> (error) Too many fingerprints match this host to give specific OS details
+192.168.1.39 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.102 -> (aggressive) Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%), Linux 2.6.32 (96%)
+192.168.1.103 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.104 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.105 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.135 -> (normal) Linux 3.2 - 4.9
+192.168.1.134 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.133 -> (normal) Linux 3.2 - 4.9
+192.168.1.131 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.75 -> (normal) Linux 2.6.24 - 2.6.36
+192.168.1.120 -> (error) Too many fingerprints match this host to give specific OS details
+192.168.1.121 -> (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+192.168.1.218 -> (error) Too many fingerprints match this host to give specific OS details
+192.168.1.122 -> (normal) Linux 3.2 - 4.9
+192.168.1.217 -> (error) Too many fingerprints match this host to give specific OS details
+192.168.1.214 -> (aggressive) Microsoft Windows Server 2008 SP1 or Windows Server 2008 R2 (86%), Microsoft Windows XP SP2 (85%), Microsoft Windows 7 (85%)
+192.168.1.210 -> (normal) Linux 2.6.32 - 3.10
+
+----------------------------
+----------------------------
+
+--- AI OS Fingerprinting ---
+
+192.168.1.223:
+	nmap: (normal) Linux 2.6.9 - 2.6.33
+	AI (21): Linux
+	AI (22): Linux
+	AI (23): Linux
+	AI (25): Linux
+	AI (53): Linux
+	AI (80): Linux
+	AI (111): Linux
+	AI (139): Linux
+	AI (445): Linux
+	AI (512): Linux
+	AI (513): Linux
+	AI (514): Linux
+
+192.168.1.222:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.221:
+	nmap: (normal) Linux 3.2 - 4.9
+	AI (22): Linux
+
+192.168.1.220:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.238:
+	nmap: (normal) VxWorks
+	AI (21): Mac
+	AI (23): Mac
+	AI (80): Mac
+	AI (443): Mac
+	AI (515): Mac
+	AI (631): Mac
+
+192.168.1.230:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+192.168.1.231:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+192.168.1.241:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.9:
+	nmap: (normal) VMware ESXi 4.1
+	AI (22): FreeBSD
+	AI (80): FreeBSD
+	AI (427): FreeBSD
+	AI (443): FreeBSD
+	AI (902): FreeBSD
+
+192.168.1.148:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.149:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+	AI (80): Linux
+
+192.168.1.146:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.147:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.144:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.1:
+	nmap: 
+	AI (443): Solaris
+
+192.168.1.145:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.142:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.143:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.140:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.10:
+	nmap: (normal) VMware ESXi 4.1
+	AI (22): FreeBSD
+	AI (80): FreeBSD
+	AI (427): FreeBSD
+	AI (443): FreeBSD
+	AI (902): FreeBSD
+
+192.168.1.5:
+	nmap: (aggressive) H3C Comware 5.20 (94%), 3Com 4200G or Huawei Quidway S5600 switch (89%), 3Com SuperStack 3 Switch 4500 (89%)
+	AI (443): Solaris
+
+192.168.1.141:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.11:
+	nmap: (normal) VMware ESXi 6.0.0
+	AI (22): FreeBSD
+	AI (80): FreeBSD
+	AI (427): FreeBSD
+	AI (443): FreeBSD
+	AI (902): FreeBSD
+
+192.168.1.95:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.92:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.90:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+192.168.1.39:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.102:
+	nmap: (aggressive) Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%), Linux 2.6.32 (96%)
+	AI (22): Linux
+
+192.168.1.103:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.104:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.105:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.135:
+	nmap: (normal) Linux 3.2 - 4.9
+	AI (22): Linux
+
+192.168.1.134:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.133:
+	nmap: (normal) Linux 3.2 - 4.9
+	AI (22): Linux
+
+192.168.1.131:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.75:
+	nmap: (normal) Linux 2.6.24 - 2.6.36
+	AI (21): Linux
+	AI (22): Linux
+	AI (80): Linux
+	AI (139): Linux
+	AI (443): Linux
+	AI (445): Linux
+	AI (548): Linux
+	AI (873): Linux
+
+192.168.1.120:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+192.168.1.121:
+	nmap: (aggressive) Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%)
+	AI (22): Linux
+
+192.168.1.218:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+192.168.1.122:
+	nmap: (normal) Linux 3.2 - 4.9
+	AI (21): Linux
+	AI (22): Linux
+	AI (80): Linux
+	AI (139): Linux
+	AI (443): Linux
+	AI (445): Linux
+	AI (873): Linux
+
+192.168.1.217:
+	nmap: (error) Too many fingerprints match this host to give specific OS details
+	AI: No open ports
+
+192.168.1.214:
+	nmap: (aggressive) Microsoft Windows Server 2008 SP1 or Windows Server 2008 R2 (86%), Microsoft Windows XP SP2 (85%), Microsoft Windows 7 (85%)
+	AI (135): Windows
+	AI (139): Windows
+	AI (445): Windows
+
+192.168.1.210:
+	nmap: (normal) Linux 2.6.32 - 3.10
+	AI (22): Linux
+	AI (111): Linux
+	AI (139): Linux
+	AI (443): Linux
+	AI (445): Linux
+

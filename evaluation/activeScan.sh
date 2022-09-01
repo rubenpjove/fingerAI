@@ -13,9 +13,9 @@ echo "-------- ARP Scan ----------"
 echo "" 
 
 arpResult=`nmap -PR -sn -n -T5 -oG - ${network} | awk '/Host/ {print $2}'`
-# arpResult='10.56.67.200 10.56.67.77 10.56.67.156'
 
 echo ${arpResult[*]} | tr " " "\n"
+# echo ${arpResult[*]} | sed 's/\(ip \|ip2 \)//g' | tr " " "\n"
 
 echo ""
 echo "----------------------------"
