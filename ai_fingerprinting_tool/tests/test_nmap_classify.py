@@ -85,7 +85,7 @@ def preparation():
     (solaris,"Solaris"),
     (freebsd,"FreeBSD"),
     (openbsd,"OpenBSD"),
-    (macosx,"mac OS"),
+    (macosx,"Mac OS X"),
 ])
 def test_classification(preparation, signature, nmapExpected):
     expected_result = signature['os']
