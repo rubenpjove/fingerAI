@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 ai_nmap_model_creation/dataset.csv
 ai_model_creation/ai_nmap_model_creation/dataset.csv
+.vscode
