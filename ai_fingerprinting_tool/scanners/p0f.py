@@ -5,7 +5,7 @@ from ai_fingerprinting_tool.ui import UI, AbstractResult, Options
 from ai_fingerprinting_tool.sniff import AbstractTrafficCapture
 from ai_fingerprinting_tool.signature_generation import AbstractSignature
 
-import conf
+import ai_fingerprinting_tool.conf as conf
 
 from scapy.plist import PacketList
 from scapy.layers.all import IP, TCP
@@ -360,7 +360,7 @@ class p0fSignature(AbstractSignature):
 
 from joblib import load
 import pandas as pd
-from ai_model_creation.ai_p0f_model_creation.transformers import *
+# from ai_model_creation.ai_p0f_model_creation.transformers import *
 import warnings
 
 
