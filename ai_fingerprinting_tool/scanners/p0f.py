@@ -55,7 +55,7 @@ class p0fOptions(Options,AbstractOptions):
 class p0fSpecificParser(AbstractSpecificParser):
     
     def createSpecificParser(self,group) -> None:
-        group.add_argument('-p0f', '--p0fToolResult', action='store_true', default=False, help='prints also the result from the original p0f tool')
+        group.add_argument('-realp0f', '--p0fToolResult', action='store_true', default=False, help='prints also the result from the original p0f tool')
            
 ################################################################################
 

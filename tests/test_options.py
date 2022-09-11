@@ -2,7 +2,7 @@ from ai_fingerprinting_tool.options import Options
 
 def optionsFixture(params):
     options = Options()
-    options.parseArguments(["p0f","active","target"]+params)
+    options.parseArguments(["active","p0f","target"]+params)
     return options
 
         

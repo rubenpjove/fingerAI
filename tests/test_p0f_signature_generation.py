@@ -10,7 +10,7 @@ from datetime import datetime
 @pytest.fixture(scope='module')
 def preparation():
     ui = UI()
-    options = ui.parseOptions(["p0f","active","1.1.1.1"],True)
+    options = ui.parseOptions(["active","p0f","1.1.1.1"],True)
     scanGenerator = ScanGenerator()
     scan,options = scanGenerator.createScan(options)
     ui.updateOptions(options)

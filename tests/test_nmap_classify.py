@@ -73,7 +73,7 @@ from ai_fingerprinting_tool.scanners.p0f import p0fSignature
 @pytest.fixture(scope='module')
 def preparation():
     ui = UI()
-    options = ui.parseOptions(["nmap","active","target"],True)
+    options = ui.parseOptions(["active","nmap","target"],True)
     scanGenerator = ScanGenerator()
     scan,options = scanGenerator.createScan(options)
     ui.updateOptions(options)
