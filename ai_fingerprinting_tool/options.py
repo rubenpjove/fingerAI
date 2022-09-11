@@ -2,35 +2,39 @@ from abc import ABC, abstractmethod
 import argparse
 import importlib
 
-from conf import SCANS
+from ai_fingerprinting_tool.conf import SCANS
 
 
 class Options():
     
     def __init__(self):
-        self.__parser = argparse.ArgumentParser(description='Fingerprinting tool based on artifial intelligence',
-                                                prog='ai_fingerprinting_tool')
+        self.__parser = argparse.ArgumentParser(description=''' _
+(_ .  _   _   _  _  /\  |
+|  | | ) (_) (- |  /--\ | 
+         _/               
+OS Fingerprinting Tool based on Artifial Intelligence
+''',
+                                                prog='fingerai',formatter_class=argparse.RawTextHelpFormatter)
         self.__parser.add_argument('-v', '--verbose', action='store_true', default=False, help='print verbose messages')
         self.__parser.add_argument('-d', '--debug', action='store_true', default=False, help='print debug messages')
         self.__parser.add_argument('-q', '--quiet', action='store_true', default=False, help='do not print any messages to stdout')
         self.__parser.add_argument('-o', '--outputFormat', choices=['normal','json','grep'], default='normal', required=False, help='output format')
         self.__parser.add_argument('-oF', '--outputFile', required=False, help='output file')
         
-        self.__parser.add_argument('scan', choices=SCANS, help='type of scan')
+        self.__parser.add_argument('scanType', choices=['active','passive'], help='scan type')
+        self.__parser.add_argument('classifier', choices=SCANS, help='AI classifier')        
+        self.__parser.add_argument('target', help='target of the scan')
         
-        group = self.__parser.add_argument_group('specific options')
-        group.add_argument('mode', choices=['active','passive'], help='mode of operation')
-        group.add_argument('target', help='target of the scan')
-        group.add_argument('-p', '--port', type=int, default=80, help='port to scan (active mode)')
-        group.add_argument('-i', '--interface', help='interface to sniff')
-        group.add_argument('-t', '--timeout', type=int, help='timeout for sniffing')
-        group.add_argument('-iF', '--inputFile', required=False, help='PCAP input file')
+        self.__parser.add_argument('-p', '--port', type=int, default=80, help='port to scan (active mode)')
+        self.__parser.add_argument('-i', '--interface', help='interface to sniff')
+        self.__parser.add_argument('-t', '--timeout', type=int, help='timeout for sniffing')
+        self.__parser.add_argument('-iF', '--inputFile', required=False, help='PCAP input file')
         
         for scanName in SCANS:
             module = importlib.import_module("ai_fingerprinting_tool.scanners."+scanName)
             class_ = getattr(module, scanName+"SpecificParser")
             scanInstance = class_()
-            scanInstance.createSpecificParser(group)
+            scanInstance.createSpecificParser(self.__parser)
     
     def parseArguments(self, externalArgs=None):
         if externalArgs is not None:
@@ -42,7 +46,7 @@ class Options():
         return self.args
     
     def getScan(self):
-        return self.args.scan
+        return self.args.classifier
     
     def getVerbose(self):
         return ( self.args.verbose or self.args.debug ) and not self.args.quiet
@@ -60,7 +64,7 @@ class Options():
         return self.args.outputFile
     
     def getMode(self):
-        return self.args.mode
+        return self.args.scanType
     
     def getTarget(self):
         return self.args.target

@@ -5,7 +5,7 @@ from ai_fingerprinting_tool.ui import UI, AbstractResult, Options
 from ai_fingerprinting_tool.sniff import AbstractTrafficCapture
 from ai_fingerprinting_tool.signature_generation import AbstractSignature
 
-import conf
+import ai_fingerprinting_tool.conf as conf
 
 from scapy.plist import PacketList
 from scapy.layers.all import IP, TCP
@@ -55,7 +55,7 @@ class p0fOptions(Options,AbstractOptions):
 class p0fSpecificParser(AbstractSpecificParser):
     
     def createSpecificParser(self,group) -> None:
-        group.add_argument('-p0f', '--p0fToolResult', action='store_true', default=False, help='prints also the result from the original p0f tool')
+        group.add_argument('-realp0f', '--p0fToolResult', action='store_true', default=False, help='prints also the result from the original p0f tool')
            
 ################################################################################
 
@@ -360,7 +360,7 @@ class p0fSignature(AbstractSignature):
 
 from joblib import load
 import pandas as pd
-from ai_model_creation.ai_p0f_model_creation.transformers import *
+# from ai_model_creation.ai_p0f_model_creation.transformers import *
 import warnings
 
 
