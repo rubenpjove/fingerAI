@@ -8,8 +8,13 @@ from ai_fingerprinting_tool.conf import SCANS
 class Options():
     
     def __init__(self):
-        self.__parser = argparse.ArgumentParser(description='Fingerprinting tool based on artifial intelligence',
-                                                prog='ai_fingerprinting_tool')
+        self.__parser = argparse.ArgumentParser(description=''' _
+(_ .  _   _   _  _  /\  |
+|  | | ) (_) (- |  /--\ | 
+         _/               
+OS Fingerprinting Tool based on Artifial Intelligence
+''',
+                                                prog='fingerai',formatter_class=argparse.RawTextHelpFormatter)
         self.__parser.add_argument('-v', '--verbose', action='store_true', default=False, help='print verbose messages')
         self.__parser.add_argument('-d', '--debug', action='store_true', default=False, help='print debug messages')
         self.__parser.add_argument('-q', '--quiet', action='store_true', default=False, help='do not print any messages to stdout')
