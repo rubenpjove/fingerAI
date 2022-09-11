@@ -1,4 +1,8 @@
-# OSFingerprintingAITool
+ _
+(_ .  _   _   _  _  /\  |
+|  | | ) (_) (- |  /--\ | 
+         _/               
+OS Fingerprinting Tool based on Artifial Intelligence
 
 This projects aims to develop an OS fingerprinting tool based on the application of AI techniques.
 
