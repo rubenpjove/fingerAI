@@ -23,8 +23,8 @@ class UI(metaclass=SingletonUI):
     def parseOptions(self,externalArgs=None,test=False):
         self.__options.parseArguments(externalArgs)
         
-        if not test and os.getuid() != 0:
-            sys.exit('You must be root to run this program (UID: {})'.format(os.getuid()))
+        # if not test and os.getuid() != 0:
+            # sys.exit('You must be root to run this program (UID: {})'.format(os.getuid()))
         
         return self.__options
     

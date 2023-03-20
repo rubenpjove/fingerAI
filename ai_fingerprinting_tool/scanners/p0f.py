@@ -97,8 +97,8 @@ class p0fSniffer(AbstractSniffer):
             while sport == 0:
                 with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
                     sport = random.randint(1024,65535)
-                    if sock.connect_ex(('127.0.0.1', sport)) != 0:
-                        sport = 0
+                    # if sock.connect_ex(('127.0.0.1', sport)) != 0:
+                    #     sport = 0
 
             arguments = {'x' : IP(dst=self.__target)/TCP(sport=sport, dport=self.__port,flags="S",options=[('MSS',1460),('SAckOK',''),('Timestamp',(int(datetime.timestamp(datetime.now())),0)),('NOP',0),('WScale',7)]),
                          'iface' : self.__interface,
@@ -249,7 +249,7 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
         signature = {
             'sig_direction': '*',
             'initial_ttl': '*',
-            'window_size': '*',
+            # 'window_size': '*',
             'window_scaling': '*',
             'tcp_options': '',
             'quirk_df': 0,
@@ -271,7 +271,7 @@ class p0fSignatureGenerator(AbstractSignatureGenerator):
         signature['initial_ttl'] = str(packet[IP].ttl)
             
         # Window Size
-        signature['window_size'] = str(tcpPacket.window)
+        # signature['window_size'] = str(tcpPacket.window)
         
         # Windows Scaling
         if 'WScale' in tcpOptions:
@@ -342,7 +342,7 @@ class p0fSignature(AbstractSignature):
         return [
             self.__signature['sig_direction'],
             self.__signature['initial_ttl'],
-            self.__signature['window_size'],
+            # self.__signature['window_size'],
             self.__signature['window_scaling'],
             self.__signature['tcp_options'],
             self.__signature['quirk_df'],
@@ -360,7 +360,7 @@ class p0fSignature(AbstractSignature):
 
 from joblib import load
 import pandas as pd
-# from ai_model_creation.ai_p0f_model_creation.transformers import *
+import ai_model_creation.ai_p0f_model_creation.transformers as tr
 import warnings
 
 
@@ -377,7 +377,7 @@ class p0fClassificator(AbstractClassificator):
         encoders = load(conf.p0f_ENCODERS)
         
         df_signature = signature.getDataFrame()
-        
+
         ui.printDebug("Signature to be analyzed:")
         ui.printDebug(df_signature.to_string(index=False))
         ui.printDebug("")

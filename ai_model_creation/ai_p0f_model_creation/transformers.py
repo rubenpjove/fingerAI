@@ -56,7 +56,7 @@ class TCPOptionsTransformer(BaseEstimator, TransformerMixin):
             
         X_2.drop(self.feature_name, inplace=True, axis=1)
         
-        encoder2_tcp_options = OneHotEncoder(categories=[self.classes]*self.max_options,sparse=False,handle_unknown='ignore')
+        encoder2_tcp_options = OneHotEncoder(categories=[self.classes]*self.max_options,sparse_output=False,handle_unknown='ignore')
         
         encoder2_tcp_options.fit(X_2[list(self.headers.keys())])
         result = encoder2_tcp_options.transform(X_2[list(self.headers.keys())])
