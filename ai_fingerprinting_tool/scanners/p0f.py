@@ -360,7 +360,7 @@ class p0fSignature(AbstractSignature):
 
 from joblib import load
 import pandas as pd
-import ai_model_creation.ai_p0f_model_creation.transformers as tr
+import ai_model_creation.p0f.transformers as tr
 import warnings
 
 

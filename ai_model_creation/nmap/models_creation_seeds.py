@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
-from ai_model_creation.ai_p0f_model_creation.transformers import *
+from ai_model_creation.p0f.transformers import *
 from sklearn.compose import make_column_transformer
 from sklearn.compose import make_column_selector
 from sklearn.model_selection import train_test_split
