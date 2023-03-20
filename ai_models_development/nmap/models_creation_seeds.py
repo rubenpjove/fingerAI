@@ -2,7 +2,11 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
+<<<<<<<< HEAD:ai_models_development/nmap/models_creation_seeds.py
 from fingerai.ai_models.p0f.transformers import *
+========
+from ai_model_creation.p0f.transformers import *
+>>>>>>>> 56abc9e (Refactoring):ai_model_creation/nmap/models_creation_seeds.py
 from sklearn.compose import make_column_transformer
 from sklearn.compose import make_column_selector
 from sklearn.model_selection import train_test_split
