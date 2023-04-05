@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fingerai',
-    version='1.0.0',
+    version='1.0',
     author='rubenpjove',
     description='OS Fingerprinting Tool based on Artifial Intelligence',
     url='https://github.com/rubenpjove/fingerAI',
