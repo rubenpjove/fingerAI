@@ -3,7 +3,11 @@ import pandas as pd
 import p0f_db_parser as parser
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
+<<<<<<<< HEAD:ai_model_creation/p0f/old/models_creation_seeds.py
 from ai_model_creation.p0f.transformers import *
+========
+from fingerai.ai_models.p0f.transformers import *
+>>>>>>>> develop:ai_models_development/p0f/models_creation_seeds.py
 from sklearn.compose import make_column_transformer
 from sklearn.compose import make_column_selector
 from sklearn.model_selection import train_test_split
