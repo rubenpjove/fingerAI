@@ -9,7 +9,7 @@ setup(
     packages=find_packages(),
     python_requires='>=3.11.2',
     install_requires=[
-        'joblib==1.1.0',
+        'joblib==1.2.0',
         'pandas==1.4.4',
         'scapy==2.4.5',
         'scapy_p0f==1.0.5',
