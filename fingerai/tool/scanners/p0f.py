@@ -360,10 +360,17 @@ class p0fSignature(AbstractSignature):
 
 from joblib import load
 import pandas as pd
+<<<<<<< HEAD
 <<<<<<< HEAD:fingerai/tool/scanners/p0f.py
 =======
 import ai_model_creation.p0f.transformers as tr
 >>>>>>> 56abc9e (Refactoring):ai_fingerprinting_tool/scanners/p0f.py
+=======
+<<<<<<< HEAD:ai_fingerprinting_tool/scanners/p0f.py
+import ai_model_creation.p0f.transformers as tr
+=======
+>>>>>>> develop:fingerai/tool/scanners/p0f.py
+>>>>>>> 387f5f417f102139ce820834b587665bb0629467
 import warnings
 
 class p0fClassificator(AbstractClassificator):
